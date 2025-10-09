@@ -240,7 +240,7 @@ def show_media_editor():
     # Page selection
     page_name = st.selectbox(
         "Select page:",
-        ["scoopwhoop", "twitter", "social_village", "infomance", "the_sarcastic_indian"],
+        ["scoopwhoop", "twitter", "social_village", "infomance", "the_sarcastic_indian", "marketing_stories"],
         help="Choose which page/brand to create content for",
         key="media_editor_page_selectbox"
     )
@@ -272,6 +272,10 @@ def show_media_editor():
     elif page_name == "the_sarcastic_indian":
         template_options = {
             "Writeup": "writeup",
+        }
+    elif page_name == "marketing_stories":
+        template_options = {
+            "Thumbnail": "thumbnail",
         }
     else:
         template_options = {}

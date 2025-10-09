@@ -3,7 +3,7 @@ from pathlib import Path
 import time
 import logging
 import os
-from typing import List
+from typing import List, Literal
 import io
 
 from PIL import Image, ImageDraw
@@ -191,25 +191,29 @@ def crop_image(
 
 
 def create_gradient_overlay(
-    width: int, height: int, gradient_height_ratio: float = 0.35
+    width: int, height: int, gradient_height_ratio: float = 0.35, type: Literal["top_to_bottom", "bottom_to_top"] = "bottom_to_top", color: tuple = (0, 0, 0, 0)
 ) -> Image:
     """
     Create a gradient overlay image that's transparent at top and black at bottom
     """
     gradient_height = int(height * gradient_height_ratio)
-    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    img = Image.new("RGBA", (width, height), color)
 
     for y in range(gradient_height):
-        alpha = int(y * 1.2)
+        alpha = int(y * 0.6)
         draw = ImageDraw.Draw(img)
         y_pos = height - gradient_height + y
-        draw.line([(0, y_pos), (width, y_pos)], fill=(0, 0, 0, alpha))
+        draw.line([(0, y_pos), (width, y_pos)], fill=(color[0], color[1], color[2], alpha))
+
+    if type == "top_to_bottom":
+        img = img.rotate(180)
 
     return img
 
 
 def process_overlay_for_transparency(
-    image_path: str, session_id: str, target_width: int = 576, target_height: int = 720, page_name: str = "scoopwhoop"
+    image_path: str, session_id: str, target_width: int = 576, target_height: int = 720, page_name: str = "scoopwhoop", 
+    green_screen: tuple = (255,255,255,0)
 ) -> str:
     """
     Process overlay image to make black areas transparent
@@ -221,7 +225,7 @@ def process_overlay_for_transparency(
 
         for pixel in pixels:
             r, g, b, a = pixel
-            if r == 0 and g == 0 and b == 0:
+            if r == green_screen[0] and g == green_screen[1] and b == green_screen[2]:
                 new_pixels.append((255, 255, 255, 0))  # Make black transparent
             else:
                 new_pixels.append(pixel)

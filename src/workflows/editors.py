@@ -72,6 +72,16 @@ def video_editor(text: dict,page_name:str,assets:dict ,video_edits: dict, html_t
 
         # Step 2: Create the overlay image with text
         if video_edits.get("type") == "image_overlay":
+            type = "bottom_to_top"
+            green_screen = (0,0,0,0)
+            gradient_color = (0,0,0,0)
+            if video_edits.get("gradient") == "top_to_bottom":
+                type = "top_to_bottom"
+            if video_edits.get("green_screen"):
+                green_screen = video_edits.get("green_screen")
+            if video_edits.get("gradient_color"):
+                gradient_color = video_edits.get("gradient_color")
+            
             overlay_image_path, html_path, video_rect = create_overlay_image(
                 text=text,
                 assets=assets,
@@ -85,6 +95,7 @@ def video_editor(text: dict,page_name:str,assets:dict ,video_edits: dict, html_t
                 target_width=target_width,
                 target_height=target_height,
                 page_name=page_name,
+                green_screen=green_screen,
             )
             
             final_video_path, video_temp_files = create_image_over_video(
@@ -97,6 +108,8 @@ def video_editor(text: dict,page_name:str,assets:dict ,video_edits: dict, html_t
                 target_height=target_height,
                 crop_type=video_edits.get("crop_type", "cover"),
                 offset=video_edits.get("offset", 0),
+                type=type,
+                gradient_color=gradient_color,
             )
         else:
             overlay_image_path, html_path, video_rect = create_overlay_image(

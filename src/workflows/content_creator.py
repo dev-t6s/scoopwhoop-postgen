@@ -274,12 +274,12 @@ if __name__ == "__main__":
     import base64
     # from src.templates.timeline import timeline_template
     # from src.templates.twitter.tweet_image import tweet_image_template
-    from src.templates.the_sarcastic_indian.writeup import writeup_template
+    from src.templates.marketing_stories.headline import thumbnail_template
 
-    headline = "UttarKashi Cloud Burst India"
+    headline = "For the first time in Indian Railway history passengers are allowed to change their booking dates instead of cancelling"
 
     try:
-        session_id = asyncio.run(workflow(headline=headline, template=writeup_template,save=True))
+        session_id = asyncio.run(workflow(headline=headline, template=thumbnail_template,save=True))
         # session_id = "5a935915"
         print(f"Workflow completed successfully!")
         print(f"Document ID: {session_id}")

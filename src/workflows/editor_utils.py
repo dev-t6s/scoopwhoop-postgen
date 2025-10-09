@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Literal
 
 from PIL import Image
 from moviepy import VideoFileClip, ImageClip, CompositeVideoClip
@@ -43,6 +43,8 @@ def create_image_over_video(
     offset: int = 0,
     add_gradient: bool = True,
     crop_type: str = "cover",
+    type: Literal["top_to_bottom", "bottom_to_top"] = "bottom_to_top",
+    gradient_color: tuple = (0, 0, 0, 0),
 ) -> Tuple[bytes, str]:
     """ 
     Create final video with fixed size scaling to 576x720
@@ -92,7 +94,7 @@ def create_image_over_video(
 
         # Add gradient overlay if requested
         if add_gradient:
-            gradient_img = create_gradient_overlay(target_width, target_height)
+            gradient_img = create_gradient_overlay(target_width, target_height, type=type, color=gradient_color)
             gradient_path = f"./data/{page_name}/temp/gradient_{session_id}.png"
             gradient_img.save(gradient_path, "PNG")
 
