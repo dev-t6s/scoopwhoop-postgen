@@ -78,7 +78,7 @@ HEADLINE_SLIDE_HTML_TEMPLATE = """
 
       body {{
         font-family: "Poppins", sans-serif;
-        background: #f0f0f0;
+        background: #000000;
         display: flex;
         justify-content: center;
         /* align-items: center; */
@@ -390,7 +390,7 @@ CONTENT_SLIDE_HTML_TEMPLATE = """
 
       body {{
         font-family: "Poppins", sans-serif;
-        background: #f0f0f0;
+        background: #000000;
         display: flex;
         justify-content: center;
         /* align-items: center; */
@@ -638,7 +638,7 @@ CONTENT_SLIDE_OVERLAY_TEMPLATE = """
 
 news_template = {
     "page_name": "the_startup_journey",
-    "template_type": "news_slide",
+    "template_type": "news",
     "text_template": {"template_description":TEMPLATE_DESCRIPTION,
             "json_description":JSON_DESCRIPTION},
     "slides": {

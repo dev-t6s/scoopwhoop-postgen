@@ -159,7 +159,7 @@ def create_video_over_image(image_path:str, page_name:str, video_path:str, sessi
         video_clip = VideoFileClip(video_path)
         original_width, original_height = video_clip.size
 
-        if width and height:
+        if width  and height:
             # Use the exact dimensions from Selenium (which represent the CSS-styled area)
             target_width = width
             target_height = height
@@ -219,7 +219,7 @@ def create_video_over_image(image_path:str, page_name:str, video_path:str, sessi
         background = background.with_duration(final_clip.duration)
         
         # Position the video using Selenium coordinates
-        if x and y:
+        if x>=0 and y>=0:
             # Use exact Selenium coordinates for positioning
             final_video = CompositeVideoClip([background, final_clip.with_position((x - (width - padding)//2 , y))])
         else:

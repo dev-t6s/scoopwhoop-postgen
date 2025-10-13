@@ -241,49 +241,31 @@ def text_editor(
 
 # Test function for development
 if __name__ == "__main__":
-    from src.templates.twitter.tweet_image import tweet_image_template
+    from src.templates.laughter_colors.headline import laughter_colors_headline_template
     ## Test Image Workflow
-    final_image = text_editor(
-        template=tweet_image_template['slides']['twitter_post'],
-        page_name="twitter",
-        image_edits={"crop_type": "contain"},
-        video_edits={"type":"video_overlay","class_name":"tweet-media","padding":85},
-        text={"user_name": "John Doe",
-              "user_handle": "@johndoe",
-              "tweet_text": "This is a test tweet",
-              "add_verified_badge": True},
-        assets={"background_image": "test.png"},
-        is_video=False,
+    # final_image = text_editor(
+    #     template=founders_template['slides']['founders_slide'],
+    #     page_name="the_startup_journey",
+    #     image_edits={"crop_type": "contain" },
+    #     video_edits={},
+    #     text={"headline": "**DON'T START WITH THE GOAL OF**\n'DOING A STARTUP.' THE RISK IS THAT\nYOU MIGHT GET MARRIED TO THE\nWRONG IDEA TOO EARLY", "subtext":"-Nithin Kamath, Co-founder of Zerodha"},
+    #     assets={"background_image":"test.png"},
+    #     is_video=False,
+    #     session_id="test",
+    # )
+    final_video = text_editor(
+        template=laughter_colors_headline_template['slides']['headline_slide'],
+        page_name="laughter_colors",
+        image_edits={},
+        video_edits={"type": "video_overlay", "crop_type":"cover",
+        "class_name":"image-container",
+        "green_screen": (128,128,128,1),
+        "padding": 256},
+        text={"headline": "For the first time in ","subtext":"Indian Railway history passengers are allowed to change their booking dates instead of cancelling"},
+        assets={"background_video": "./data_/4.mp4"},
+        is_video=True,
         session_id="test",
     )
-    # from src.templates.scoopwhoop.thumbnail import thumbnail_template
-    # final_image = text_editor(
-    #     template=thumbnail_template['slides']['headline_slide'],
-    #     page_name="scoopwhoop",
-    #     image_edits={"crop_type": "cover"},
-    #     video_edits={"type": "image_overlay"},
-    #     text={"headline": "This is a test headline",
-    #           "subtext": "This is a test subtext",
-    #           "is_trigger": True,
-    #           "source": "This is a test source"},
-    #     assets={"background_video": "./data_/2.mp4"},
-    #     is_video=True,
-    #     session_id="test",
-    # )
 
-    # from src.templates.infomance.content import infomance_content_template
-    # final_image = text_editor(
-    #     template=infomance_content_template['slides']['infomance_content_slide'],
-    #     page_name="infomance",
-    #     text={
-    #         "content_text": "This is a test content text",
-    #     },
-    #     assets={"background_video": "./data_/2.mp4"},
-    #     image_edits={},
-    #     video_edits={"type":"video_overlay","class_name":"main-video","padding":256},
-    #     is_video=True,
-    #     session_id="test",
-    # )
-
-    with open("./data_/test_out.png", "wb") as f:
-        f.write(final_image)
+    # with open("./data_/test_out.png", "wb") as f:
+    #     f.write(final_image)

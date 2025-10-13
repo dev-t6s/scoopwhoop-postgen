@@ -21,13 +21,16 @@ This template has the following slides/sections:
   - headline: Contains both the highlighted text and subtext. Text wrapped in ** ** appears with yellow highlight, text without ** ** appears in white below.
     EX: "**STARTUP FUNDING TRENDS** \\n WHAT'S CHANGING IN 2025"
     EX: "**THE RISE OF AI STARTUPS** \\n HOW FOUNDERS ARE BUILDING THE FUTURE"
+
+  - subtext: A short subtext for the post, one sentence max.
   
   ### Text Input:
     {{
       "name": "headline_slide",
       "image_description": "str",
       "text":{{
-        "headline": "str"
+        "headline": "str",
+        "subtext": "str"
       }}
     }}
 
@@ -86,7 +89,7 @@ HEADLINE_SLIDE_HTML_TEMPLATE = """
 
       body {{
         font-family: "Poppins", sans-serif;
-        background: #f0f0f0;
+        background: #000000;
         display: flex;
         justify-content: center;
         /* align-items: center; */
@@ -376,7 +379,7 @@ CONTENT_SLIDE_HTML_TEMPLATE = """
 
       body {{
         font-family: "Poppins", sans-serif;
-        background: #f0f0f0;
+        background: #000000;
         display: flex;
         justify-content: center;
         /* align-items: center; */
@@ -702,7 +705,7 @@ CONTENT_SLIDE_OVERLAY_TEMPLATE = """
 
 scheme_template = {
     "page_name": "the_startup_journey",
-    "template_type": "scheme_slide",
+    "template_type": "scheme",
     "text_template": {"template_description":TEMPLATE_DESCRIPTION,
             "json_description":JSON_DESCRIPTION},
     "slides": {

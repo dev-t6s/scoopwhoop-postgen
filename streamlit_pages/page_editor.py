@@ -240,7 +240,7 @@ def show_media_editor():
     # Page selection
     page_name = st.selectbox(
         "Select page:",
-        ["scoopwhoop", "twitter", "social_village", "infomance", "the_sarcastic_indian", "marketing_stories"],
+        ["scoopwhoop", "twitter", "social_village", "infomance", "the_sarcastic_indian", "marketing_stories", "laughter_colors", "upsc_world", "the_indian_idiot","the_tatva", "the_startup_journey"],
         help="Choose which page/brand to create content for",
         key="media_editor_page_selectbox"
     )
@@ -276,6 +276,29 @@ def show_media_editor():
     elif page_name == "marketing_stories":
         template_options = {
             "Thumbnail": "thumbnail",
+        }
+    elif page_name == "laughter_colors":
+        template_options = {
+            "Headline": "headline",
+        }
+    elif page_name == "upsc_world":
+        template_options = {
+            "Headline": "headline",
+        }
+    elif page_name == "the_indian_idiot":
+        template_options = {
+            "Headline": "headline",
+        }
+    elif page_name == "the_tatva":
+        template_options = {
+            "Headline": "headline",
+        }
+    elif page_name == "the_startup_journey":
+        template_options = {
+            "Scheme": "scheme",
+            "News": "news",
+            "Founders": "founders",
+            "Announcement": "announcement",
         }
     else:
         template_options = {}
@@ -381,7 +404,7 @@ def show_text_only_editor():
     # Page and template selection
     page_name = st.selectbox(
         "Select page:",
-        ["scoopwhoop", "the_sarcastic_indian","twitter"],
+        ["scoopwhoop", "the_sarcastic_indian","twitter", "the_dope_indian"],
         help="Choose which page/brand to create content for",
         key="text_only_page_selectbox"
     )
@@ -396,6 +419,10 @@ def show_text_only_editor():
             "Tweet Text": "text_based",
         }
     elif page_name == "the_sarcastic_indian":
+        template_options = {
+            "Writeup": "writeup",
+        }
+    elif page_name == "the_dope_indian":
         template_options = {
             "Writeup": "writeup",
         }

@@ -359,7 +359,7 @@ HEADLINE_SLIDE_OVERLAY_TEMPLATE = """
 
 founders_template = {
     "page_name": "the_startup_journey",
-    "template_type": "founders_slide",
+    "template_type": "founders",
     "text_template": {"template_description":TEMPLATE_DESCRIPTION,
             "json_description":JSON_DESCRIPTION},
     "slides": {

@@ -403,7 +403,7 @@ HEADLINE_OVERLAY_TEMPLATE = """<!DOCTYPE html>
 
 upsc_world_headline_template = {
     "page_name": "upsc_world",
-    "template_type": "content",
+    "template_type": "headline",
     "text_template": {"template_description":TEMPLATE_DESCRIPTION,
             "json_description":JSON_DESCRIPTION},
     "slides": {

@@ -61,7 +61,7 @@ HEADLINE_SLIDE_HTML_TEMPLATE = """
 
       body {{
         font-family: "Poppins", sans-serif;
-        background: #f0f0f0;
+        background: #000000;
         display: flex;
         justify-content: center;
         /* align-items: center; */
@@ -295,7 +295,7 @@ HEADLINE_SLIDE_OVERLAY_TEMPLATE = """
 
 announcement_template = {
     "page_name": "the_startup_journey",
-    "template_type": "announcement_slide",
+    "template_type": "announcement",
     "text_template": {"template_description":TEMPLATE_DESCRIPTION,
             "json_description":JSON_DESCRIPTION},
     "slides": {

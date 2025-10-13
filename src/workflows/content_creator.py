@@ -43,7 +43,7 @@ async def slide_creator(slide_template: dict, html_template: dict, page_name:str
     try:
         session_id = str(uuid.uuid4())[:8]
         name = slide_template["name"]
-        text = slide_template["text"]
+        text = slide_template.get("text", {})
 
         # Generate images from different sources
         image_tasks = [
@@ -145,7 +145,7 @@ async def slide_creator(slide_template: dict, html_template: dict, page_name:str
 async def text_only_slide_creator(slide_template: dict, html_template: dict, page_name:str) -> List[Dict]:
     session_id = str(uuid.uuid4())[:8]
     name = slide_template["name"]
-    text = slide_template["text"]
+    text = slide_template.get("text", {})
 
     loop = asyncio.get_event_loop()
     with_text_bytes = await loop.run_in_executor(
@@ -274,24 +274,24 @@ if __name__ == "__main__":
     import base64
     # from src.templates.timeline import timeline_template
     # from src.templates.twitter.tweet_image import tweet_image_template
-    from src.templates.marketing_stories.headline import thumbnail_template
+    from src.templates.upsc_world.headline import upsc_world_headline_template
 
     headline = "For the first time in Indian Railway history passengers are allowed to change their booking dates instead of cancelling"
 
     try:
-        session_id = asyncio.run(workflow(headline=headline, template=thumbnail_template,save=True))
+        session_id = asyncio.run(workflow(headline=headline, template=upsc_world_headline_template,save=True))
         # session_id = "5a935915"
         print(f"Workflow completed successfully!")
         print(f"Document ID: {session_id}")
-        mongo_client = get_mongo_client()
-        result = mongo_client.get_workflow_result(session_id)
-        for slide in result["slides"]:
-            for img in slide["images"]:
-                b64_img = base64.b64decode(img["images"]["with_text"]["image_base64"])
-                with open(
-                    f"./data_/slide_1/test_{slide['slide_index']}.png", "wb"
-                ) as f:
-                    f.write(b64_img)
-        mongo_client.close()
+        # mongo_client = get_mongo_client()
+        # result = mongo_client.get_workflow_result(session_id)
+        # for slide in result["slides"]:
+        #     for img in slide["images"]:
+        #         b64_img = base64.b64decode(img["images"]["with_text"]["image_base64"])
+        #         with open(
+        #             f"./data_/slide_1/test_{slide['slide_index']}.png", "wb"
+        #         ) as f:
+        #             f.write(b64_img)
+        # mongo_client.close()
     except Exception as e:
         print(f"Workflow failed: {e}")
