@@ -398,7 +398,7 @@ writeup_template = {
             "text_only": True,
             "text": {
                 "headline": {"type": "text_area", "tag": "h1", "class": "headline"},
-                "news_source": {"type": "text", "tag": "p", "class": "source"},
+                "news_source": {"type": "text", "tag": "p", "class": "source", "default": ""},
             },
             "assets":{
                 "logo_image": {"type": "dropdown", "values": ["logo.png"], "default": "logo.png"},
