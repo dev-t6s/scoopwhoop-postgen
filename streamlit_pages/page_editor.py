@@ -267,8 +267,9 @@ def show_media_editor():
         template_options = {
             "Content": "content",
             "Thumbnail": "thumbnail",
-            "Thumbnail 3": "thumbnail_3"
         }
+        if file_type == "image":
+            template_options["Thumbnail 3"] = "thumbnail_3"
     elif page_name == "the_sarcastic_indian":
         template_options = {
             "Writeup": "writeup",
@@ -276,7 +277,11 @@ def show_media_editor():
     elif page_name == "marketing_stories":
         template_options = {
             "Thumbnail": "thumbnail",
+            "Carousel": "carousel",
         }
+        if file_type == "video":
+            template_options["Ad Reel"] = "ad_reel"
+            template_options["Meme Reel"] = "meme_reel"
     elif page_name == "laughter_colors":
         template_options = {
             "Headline": "headline",

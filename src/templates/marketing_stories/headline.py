@@ -318,7 +318,7 @@ thumbnail_template = {
             "assets":{
                 "background_video": {"type":"bytes", "file_type":"mp4"},
                 "background_image": {"type":"bytes", "file_type":"png"},
-                "logo_image": {"type": "dropdown", "values": ["logo.png"], "default": "logo.png"},
+                "logo_image": { "default": "logo.png"},
             },
             "image_edits": {
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},

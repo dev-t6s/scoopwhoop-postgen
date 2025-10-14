@@ -18,6 +18,9 @@ from src.templates.infomance.thumbnail import infomance_thumbnail_template
 from src.templates.infomance.thumbnail_3 import infomance_thumbnail_3_template
 
 from src.templates.marketing_stories.headline import thumbnail_template as marketing_stories_thumbnail_template
+from src.templates.marketing_stories.carousel import carousel_template
+from src.templates.marketing_stories.ad_reel import ad_reel_template
+from src.templates.marketing_stories.meme_reel import meme_reel_template
 
 from src.templates.the_thatva.headline import the_thatva_headline_template
 
@@ -85,6 +88,12 @@ def get_template_config(template_type: str, page_name: str) -> dict:
     elif page_name == "marketing_stories":
         if template_type == "thumbnail":
             return marketing_stories_thumbnail_template
+        elif template_type == "carousel":
+            return carousel_template
+        elif template_type == "ad_reel":
+            return ad_reel_template
+        elif template_type == "meme_reel":
+            return meme_reel_template
         else:
             raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
     elif page_name == "the_tatva":

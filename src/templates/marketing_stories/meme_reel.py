@@ -258,7 +258,7 @@ meme_reel_template = {
             },
             "assets":{
                 "background_video": {"type":"bytes", "file_type":"mp4"},
-                "top_image": {"type":"bytes", "file_type":"png"}
+                "top_image": {"type":"bytes", "file_type":"png","default":"image.png"},
             },
             "image_edits": {
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
@@ -269,6 +269,7 @@ meme_reel_template = {
                 "green_screen": {"type":"default", "values": (0, 247, 34, 1)},
                 "class_name": {"type":"default", "values": "background-video"},
                 "padding": {"type":"default", "values": 256},
+                "add_gradient":{"type":"default","values":False},
             }
         },
     },

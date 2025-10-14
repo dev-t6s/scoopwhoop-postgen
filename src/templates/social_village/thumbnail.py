@@ -144,7 +144,7 @@ THUMBNAIL_SLIDE_OVERLAY_TEMPLATE = """<!DOCTYPE html>
         padding: 0;
         height: 100%;
         font-family: "Poppins", sans-serif;
-        background-color: #f0f0f0;
+        background-color: #000000;
       }}
       .container {{
         position: relative;

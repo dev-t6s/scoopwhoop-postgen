@@ -127,6 +127,7 @@ def show_sources_page():
                     elif page_name == "marketing_stories":
                         template_options = {
                             "Thumbnail": "thumbnail",
+                            "Carousel": "carousel",
                         }
                     elif page_name == "laughter_colors":
                         template_options = {

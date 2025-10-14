@@ -101,7 +101,7 @@ async def handle_main_media(tweet_data: dict, session_id: str) -> tuple[dict, di
             f.write(media_data.getvalue())
         assets["background_video"] = media_path
         is_video = True
-        video_edits = {"crop_type": "cover", "type": "video_overlay", "class_name":"tweet-media", "padding":85}
+        video_edits = {"crop_type": "cover", "type": "video_overlay", "class_name":"tweet-media", "padding":85,"green_screen":(128,128,128,1)}
     
     return assets, video_edits, is_video
 
@@ -169,7 +169,7 @@ async def create_tweet_content(tweet_data: dict) -> tuple[bytes, bool]:
     
     # Set video edits for quoted media if needed
     if quoted_is_video:
-        video_edits = {"crop_type": "cover", "type": "video_overlay", "class_name":"quoted-video", "padding":105}
+        video_edits = {"crop_type": "cover", "type": "video_overlay", "class_name":"quoted-video", "padding":105,"green_screen":(0,247,34,1)}
     elif main_is_video:
         video_edits = main_video_edits
     
