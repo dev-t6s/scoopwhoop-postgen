@@ -9,6 +9,8 @@ from src.workflows.editors import text_editor
 from src.utils import extract_text_from_html, get_file_type
 from src.templates import get_template_config
 
+from streamlit_pages.logger_config import logger
+
 
 def text_editor_form(
     text_values: Dict,
@@ -171,6 +173,8 @@ def text_editor_form(
             try:
                 if session_id is None:
                     session_id = str(uuid.uuid4())[:8]
+                
+                logger.log_event("text_editor_form", "Generating new content", {"page_name": page_name, "template_type":template.get("template_type"),"slide_name": slide_name,"image_edits": image_edits_input, "video_edits": video_edits_input, "text": text_input, "session_id": session_id, "is_video": is_video})
 
                 for key, value in assets_input.items():
                     if value.get("file_type") == "bytes":
@@ -181,7 +185,7 @@ def text_editor_form(
                         assets_input[key] = file_path
                     elif value.get("file_type") == "path":
                         assets_input[key] = value.get("content")
-                
+
                 new_content_bytes = text_editor(
                     template=slide_config,
                     page_name=page_name,
@@ -561,6 +565,9 @@ def show_text_only_editor():
                 try:
                     # Generate the image using text_editor
                     session_id = str(uuid.uuid4())
+
+                    logger.log_event("text_only_editor_form", "Generating new content", {"page_name": page_name, "template_type": selected_template, "slide_name": selected_slide, "image_edits": image_edits_input,"text": text_input, "session_id": session_id})
+                    
                     for key, value in assets_input.items():
                         if value.get("file_type") == "bytes":
                             file_name = f"{key}_{session_id}.{value.get('extension')}"

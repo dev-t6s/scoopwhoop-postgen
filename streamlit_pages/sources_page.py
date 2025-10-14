@@ -13,6 +13,7 @@ from src.services.mongo_client import get_mongo_client
 from src.templates import get_template_config
 from src.workflows.content_creator import workflow
 from streamlit_pages.page_editor import text_editor_form
+from streamlit_pages.logger_config import logger
 
 
 def show_sources_page():
@@ -253,10 +254,13 @@ def generate_content_from_source(headline: str, template_type: str, page_name: s
         st.session_state[f"{session_key}_completed"] = True
         st.session_state[f"{session_key}_post_data"] = post_data
         
+        logger.log_event("sources_page", "Content generation completed", {"session_id": session_id, "headline": headline, "template_type": template_type, "page_name": page_name, "slides_count": len(template.get("slides", {}))})
         time.sleep(1)
         st.rerun()
+
         
     except Exception as e:
+        logger.log_event("sources_page", "Content generation failed", {"error": str(e), "error_type": type(e).__name__, "headline": headline, "template_type": template_type, "page_name": page_name})
         progress_bar.progress(0)
         st.error(f"❌ Error generating content: {str(e)}")
         status_text.text("Generation failed")

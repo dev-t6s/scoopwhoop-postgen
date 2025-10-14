@@ -7,6 +7,7 @@ import time
 
 from src.workflows.tweet_creator import create_tweet_content
 from src.services.rapidapi import get_tweet_data
+from streamlit_pages.logger_config import logger
 
 
 def show_tweet_page():
@@ -274,13 +275,14 @@ def generate_tweet_content_from_data(tweet_data: dict):
         st.session_state["is_video"] = is_video
         st.session_state["latest_tweet_data"] = tweet_data
         st.session_state["show_tweet_results"] = True
+        logger.log_event("tweet_page", "Tweet content generated successfully", {"tweet_data": tweet_data})
         st.rerun()
 
     except Exception as e:
         progress_bar.progress(0)
         st.error(f"❌ Error generating tweet content: {str(e)}")
         status_text.text("Generation failed")
-
+        logger.log_event("tweet_page", "Tweet content generation failed", {"error": str(e), "error_type": type(e).__name__, "tweet_data": tweet_data})
     finally:
         progress_container.empty()
 

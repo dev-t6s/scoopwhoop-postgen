@@ -9,6 +9,8 @@ from src.services.mongo_client import get_mongo_client
 from src.templates import get_template_config
 from src.workflows.content_creator import workflow
 from streamlit_pages.page_editor import text_editor_form
+from src.workflows.editors import text_editor
+from streamlit_pages.logger_config import logger
 
 
 def show_generate_page():
@@ -165,11 +167,26 @@ def generate_content(headline: str, template_type: str, page_name: str):
         st.session_state["latest_session_id"] = session_id
         st.session_state["latest_page_name"] = page_name
         st.session_state["show_results"] = True
+        
+        logger.log_event("generate_page", "Content generation completed", {
+            "session_id": session_id,
+            "headline": headline,
+            "template_type": template_type,
+            "page_name": page_name,
+            "slides_count": len(template.get("slides", {}))
+        })
 
         time.sleep(1)
         st.rerun()
 
     except Exception as e:
+        logger.log_event("generate_page", "Content generation failed", {
+            "error": str(e),
+            "error_type": type(e).__name__,
+            "headline": headline,
+            "template_type": template_type,
+            "page_name": page_name
+        })
         progress_bar.progress(0)
         st.error(f"❌ Error generating content: {str(e)}")
         status_text.text("Generation failed")
@@ -365,13 +382,21 @@ def show_text_only_results(session_id: str, result: dict, slides: list, selected
                                     
                                     if submitted:
                                         try:
-                                            from src.workflows.editors import text_editor
-                                            
                                             # Process assets
                                             session_id_temp = str(uuid.uuid4())
                                             for key, value in assets_input.items():
                                                 if value.get("file_type") == "path":
                                                     assets_input[key] = value.get("content")
+                                            
+                                            logger.log_event("generate_page", "Text-only content updated", {
+                                                "template_type": template_type,
+                                                "page_name": result_page_name,
+                                                "session_id": session_id_temp,
+                                                "slide_name": slide_name,
+                                                "slide_index": selected_slide_idx,
+                                                "text_content": text_input,
+                                                "original_session_id": session_id
+                                            })
                                             
                                             new_image_bytes = text_editor(
                                                 template=slide_config,
@@ -556,6 +581,14 @@ def show_media_results(session_id: str, result: dict, slides: list, selected_sli
                                 )
 
                                 if submitted and new_image:
+                                    logger.log_event("generate_page", "Media content updated", {
+                                        "template_type": template_type,
+                                        "page_name": result_page_name,
+                                        "slide_name": slide_name,
+                                        "slide_index": selected_slide_idx,
+                                        "image_index": tab_idx,
+                                        "original_session_id": session_id
+                                    })
                                     st.session_state[edit_key] = new_image
                                     st.success("✅ Text edited successfully!")
                                     st.rerun()
