@@ -681,6 +681,51 @@ TWEET_TAG_OVERLAY_TEMPLATE = """
         </div>
       </div>
     </div>
+    <script>
+    (function () {{
+      const video = document.querySelector(".quoted-video");
+
+      function processVideo() {{
+        // Get video dimensions
+        const width = video.clientWidth;
+        const height = video.clientHeight;
+
+        const containerWidth = Math.min(1080, width);
+        const containerHeight = Math.min(1920, height);
+
+        // Set explicit dimensions
+        video.style.width = width + "px";
+        video.style.height = height + "px";
+
+        // Set background color to green
+        video.style.backgroundColor = "rgba(0,247,34,1)";
+
+        // Remove video source to show only green background
+        video.removeAttribute("src");
+        video.load();
+
+        // Signal ready
+        window.templateReady = true;
+        document.body.setAttribute("data-ready", "true");
+      }}
+
+      // Try multiple approaches to ensure it runs
+      if (video.readyState >= 1) {{
+        // Video metadata already loaded
+        processVideo();
+      }} else {{
+        // Wait for metadata
+        video.addEventListener("loadedmetadata", processVideo);
+      }}
+
+      // Fallback: also try on load
+      window.addEventListener("load", function () {{
+        if (!window.templateReady && video.readyState >= 1) {{
+          processVideo();
+        }}
+      }});
+    }})();
+  </script>
   </body>
 </html>
 """
@@ -718,6 +763,7 @@ tweet_tag_template = {
                 "type": {"type":"default", "values": "video_overlay"},
                 "class_name":{"type":"default","values":"quoted-video"},
                 "padding":{"type":"default","values":105},
+                "green_screen":{"type":"default","values":(0,247,34,1)},
             }
         },
     },

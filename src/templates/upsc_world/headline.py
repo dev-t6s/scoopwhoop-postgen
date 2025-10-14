@@ -340,7 +340,6 @@ HEADLINE_OVERLAY_TEMPLATE = """<!DOCTYPE html>
       </div>
       <div class="bottom-banner">
       <!-- Gradient Overlay -->
-      <div class="gradient-overlay"></div>
 
       <!-- Bottom Text -->
       <div class="text-overlay">
@@ -397,6 +396,51 @@ HEADLINE_OVERLAY_TEMPLATE = """<!DOCTYPE html>
       // Re-run if window is resized
       window.addEventListener('resize', resizeHeadlineToFit)
     </script>
+    <script>
+    (function () {{
+      const video = document.querySelector(".background-image");
+
+      function processVideo() {{
+        // Get video dimensions
+        const width = video.clientWidth;
+        const height = video.clientHeight;
+
+        const containerWidth = Math.min(1080, width);
+        const containerHeight = Math.min(1920, height);
+
+        // Set explicit dimensions
+        video.style.width = width + "px";
+        video.style.height = height + "px";
+
+        // Set background color to green
+        video.style.backgroundColor = "rgba(0,247,34,1)";
+
+        // Remove video source to show only green background
+        video.removeAttribute("src");
+        video.load();
+
+        // Signal ready
+        window.templateReady = true;
+        document.body.setAttribute("data-ready", "true");
+      }}
+
+      // Try multiple approaches to ensure it runs
+      if (video.readyState >= 1) {{
+        // Video metadata already loaded
+        processVideo();
+      }} else {{
+        // Wait for metadata
+        video.addEventListener("loadedmetadata", processVideo);
+      }}
+
+      // Fallback: also try on load
+      window.addEventListener("load", function () {{
+        if (!window.templateReady && video.readyState >= 1) {{
+          processVideo();
+        }}
+      }});
+    }})();
+  </script>
   </body>
 </html>
 """
@@ -424,6 +468,9 @@ upsc_world_headline_template = {
                 "type": {"type":"default", "values": "video_overlay"},
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"] , "default": "cover"},
                 "class_name":{"type":"default","values":"background-image"},
+                "green_screen":{"type":"default","values":(0,247,34,1)},
+                "add_gradient":{"type":"default","values":True},
+                "padding":{"type":"default","values":256},
             }
         },
     },

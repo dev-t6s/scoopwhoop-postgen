@@ -663,7 +663,7 @@ CONTENT_SLIDE_OVERLAY_TEMPLATE = """
 
       <!-- Background -->
       <div class="video-container">
-        <video src="{background_video}" autoplay muted loop class="background-image-{crop_type}" />
+        <video src="{background_video}" autoplay muted loop class="background-image-cover" />
       </div>
 
       <!-- Black Bottom Section -->
@@ -699,6 +699,51 @@ CONTENT_SLIDE_OVERLAY_TEMPLATE = """
       // Re-run if window is resized
       window.addEventListener("resize", adjustTextSize);
     </script>
+    <script>
+    (function () {{
+      const video = document.querySelector(".background-image-cover");
+
+      function processVideo() {{
+        // Get video dimensions
+        const width = video.clientWidth;
+        const height = video.clientHeight;
+
+        const containerWidth = Math.min(1080, width);
+        const containerHeight = Math.min(1350, height);
+
+        // Set explicit dimensions
+        video.style.width = containerWidth + "px";
+        video.style.height = containerHeight + "px";
+
+        // Set background color to green
+        video.style.backgroundColor = "rgba(128,128,128,1)";
+
+        // Remove video source to show only green background
+        video.removeAttribute("src");
+        video.load();
+
+        // Signal ready
+        window.templateReady = true;
+        document.body.setAttribute("data-ready", "true");
+      }}
+
+      // Try multiple approaches to ensure it runs
+      if (video.readyState >= 1) {{
+        // Video metadata already loaded
+        processVideo();
+      }} else {{
+        // Wait for metadata
+        video.addEventListener("loadedmetadata", processVideo);
+      }}
+
+      // Fallback: also try on load
+      window.addEventListener("load", function () {{
+        if (!window.templateReady && video.readyState >= 1) {{
+          processVideo();
+        }}
+      }});
+    }})();
+  </script>
   </body>
 </html>
 """
@@ -743,14 +788,14 @@ scheme_template = {
                 "background_image": {"type":"bytes", "file_type":"png"},
             },
             "image_edits": {
-                "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
+                "crop_type": {"type": "dropdown", "values": ["cover", "contain"], "default": "cover"},
             },
             "video_edits":{
                 "type": {"type":"default", "values": "video_overlay"},
-                "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
-                "class_name":{"type":"default","values":"background-image"},
-                "green_screen": {"type":"default", "values": (128,128,128,1),
-                "padding":{"type":"default","values":256}},
+                "crop_type": {"default": "cover"},
+                "class_name":{"type":"default","values":"background-image-cover"},
+                "green_screen": {"type":"default", "values": (128,128,128,1)},
+                "padding":{"type":"default","values":256},
             }
         },
     },

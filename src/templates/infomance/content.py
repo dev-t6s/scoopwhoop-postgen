@@ -394,7 +394,7 @@ CONTENT_OVERLAY_TEMPLATE = """<!DOCTYPE html>
       </div>
 
       <div class="image-banner">
-        <video src="{background_video}" autoplay muted loop class="main-video"></video>
+        <video src="{background_video}"  class="main-video"></video>
       </div>
 
       <div class="text-content-container">
@@ -408,6 +408,53 @@ CONTENT_OVERLAY_TEMPLATE = """<!DOCTYPE html>
       </div>
     </div>
   </body>
+  <script>
+    (function () {{
+      const video = document.querySelector(".main-video");
+
+      function processVideo() {{
+        // Get video dimensions
+        const width = video.videoWidth;
+        const height = video.videoHeight;
+
+        // Calculate the display height based on container width (1080px)
+        const containerWidth = 1080;
+        const aspectRatio = height / width;
+        const displayHeight = containerWidth * aspectRatio;
+
+        // Set explicit dimensions
+        video.style.width = containerWidth + "px";
+        video.style.height = displayHeight + "px";
+
+        // Set background color to green
+        video.style.backgroundColor = "rgba(0, 247, 34, 1)";
+
+        // Remove video source to show only green background
+        video.removeAttribute("src");
+        video.load();
+
+        // Signal ready
+        window.templateReady = true;
+        document.body.setAttribute("data-ready", "true");
+      }}
+
+      // Try multiple approaches to ensure it runs
+      if (video.readyState >= 1) {{
+        // Video metadata already loaded
+        processVideo();
+      }} else {{
+        // Wait for metadata
+        video.addEventListener("loadedmetadata", processVideo);
+      }}
+
+      // Fallback: also try on load
+      window.addEventListener("load", function () {{
+        if (!window.templateReady && video.readyState >= 1) {{
+          processVideo();
+        }}
+      }});
+    }})();
+  </script>
 </html>
 """
 
@@ -432,7 +479,8 @@ infomance_content_template = {
             "video_edits":{
                 "type": {"type":"default", "values": "video_overlay"},
                 "class_name":{"type":"default","values":"main-video"},
-                "padding":{"type":"default","values":258}
+                "padding":{"type":"default","values":258},
+                "green_screen":{"type":"default","values":(0,247,34,1)},
             }
         },
     },

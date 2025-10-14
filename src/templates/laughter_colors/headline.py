@@ -291,6 +291,53 @@ HEADLINE_OVERLAY_TEMPLATE = """
       </div>
     </div>
   </body>
+  <script>
+    (function () {{
+      const video = document.querySelector(".image-container video");
+
+      function processVideo() {{
+        // Get video dimensions
+        const width = video.videoWidth;
+        const height = video.videoHeight;
+
+        // Calculate the display height based on container width (1080px)
+        const containerWidth = 1080;
+        const aspectRatio = height / width;
+        const displayHeight = containerWidth * aspectRatio;
+
+        // Set explicit dimensions
+        video.style.width = containerWidth + "px";
+        video.style.height = displayHeight + "px";
+
+        // Set background color to green
+        video.style.backgroundColor = "rgba(128,128,128,1)";
+
+        // Remove video source to show only green background
+        video.removeAttribute("src");
+        video.load();
+
+        // Signal ready
+        window.templateReady = true;
+        document.body.setAttribute("data-ready", "true");
+      }}
+
+      // Try multiple approaches to ensure it runs
+      if (video.readyState >= 1) {{
+        // Video metadata already loaded
+        processVideo();
+      }} else {{
+        // Wait for metadata
+        video.addEventListener("loadedmetadata", processVideo);
+      }}
+
+      // Fallback: also try on load
+      window.addEventListener("load", function () {{
+        if (!window.templateReady && video.readyState >= 1) {{
+          processVideo();
+        }}
+      }});
+    }})();
+  </script>
 </html>
 """
 
@@ -318,8 +365,8 @@ laughter_colors_headline_template = {
             },
             "video_edits":{
                 "type": {"type":"default", "values": "video_overlay"},
-                "crop_type": {"type": "dropdown", "values": ["cover", "contain"] , "default": "cover"},
-                "green_screen": {"type":"defauly","values": (128,128,128,1)},
+                "crop_type": {"default": "cover"},
+                "green_screen": {"type":"default","values": (128,128,128,1)},
                 "class_name": {"type":"default","values": "image-container"},
                 "padding": {"type":"default","values": 256},
             }

@@ -489,6 +489,7 @@ HEADLINE_SLIDE_OVERLAY_TEMPLATE = """
         width: 100%;
         display: block;
         object-fit: cover;
+        background-color: rgba(128,128,128,1);
       }}
     </style>
   </head>
@@ -519,6 +520,51 @@ HEADLINE_SLIDE_OVERLAY_TEMPLATE = """
       </div>
     </div>
   </body>
+  <script>
+    (function () {{
+      const video = document.querySelector(".tweet-video");
+
+      function processVideo() {{
+        // Get video dimensions
+        const width = video.clientWidth;
+        const height = video.clientHeight;
+
+        const containerWidth = Math.min(1080, width);
+        const containerHeight = Math.min(1920, height);
+
+        // Set explicit dimensions
+        video.style.width = width + "px";
+        video.style.height = height + "px";
+
+        // Set background color to green
+        video.style.backgroundColor = "rgba(128,128,128,1)";
+
+        // Remove video source to show only green background
+        video.removeAttribute("src");
+        video.load();
+
+        // Signal ready
+        window.templateReady = true;
+        document.body.setAttribute("data-ready", "true");
+      }}
+
+      // Try multiple approaches to ensure it runs
+      if (video.readyState >= 1) {{
+        // Video metadata already loaded
+        processVideo();
+      }} else {{
+        // Wait for metadata
+        video.addEventListener("loadedmetadata", processVideo);
+      }}
+
+      // Fallback: also try on load
+      window.addEventListener("load", function () {{
+        if (!window.templateReady && video.readyState >= 1) {{
+          processVideo();
+        }}
+      }});
+    }})();
+  </script>
 </html>
 """
 
@@ -550,6 +596,7 @@ tweet_image_template = {
                 "type": {"type":"default", "values": "video_overlay"},
                 "class_name":{"type":"default","values":"tweet-media"},
                 "padding":{"type":"default","values":85},
+                "green_screen":{"type":"default","values":(128,128,128,1)},
             }
         },
     },
