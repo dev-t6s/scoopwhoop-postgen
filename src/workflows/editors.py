@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from PIL import Image
 
 from src.utils import (
     capture_html_screenshot,
@@ -47,7 +48,7 @@ def image_editor(text: dict,page_name:str, assets: dict, image_edits: dict, html
         cleanup_files(temp_dir,session_id)
 
 
-def video_editor(text: dict,page_name:str,assets:dict ,video_edits: dict, html_template: str, session_id: str, target_width: int = 1080, target_height: int = 1350) -> bytes:
+def video_editor(text: dict,page_name:str,assets:dict ,video_edits: dict, html_template: str, session_id: str, target_width: int = None, target_height: int = None) -> bytes:
     """
     Complete workflow to create edited video with text overlay
 
@@ -89,6 +90,13 @@ def video_editor(text: dict,page_name:str,assets:dict ,video_edits: dict, html_t
                 session_id=session_id,  
                 page_name=page_name,
             )
+
+            if target_height is None or target_width is None:
+                with open(overlay_image_path, "rb") as f:
+                    overlay_image = Image.open(f)
+                    target_height = overlay_image.height
+                    target_width = overlay_image.width
+            
             processed_overlay_path = process_overlay_for_transparency(
                 image_path=overlay_image_path,
                 session_id=session_id,
@@ -121,9 +129,24 @@ def video_editor(text: dict,page_name:str,assets:dict ,video_edits: dict, html_t
                 get_video=True,
                 class_name = video_edits.get("class_name", ""),
             )
+
+            if target_height is None or target_width is None:
+                with open(overlay_image_path, "rb") as f:
+                    overlay_image = Image.open(f)
+                    target_height = overlay_image.height
+                    target_width = overlay_image.width
+            
+            processed_overlay_path = process_overlay_for_transparency(
+                image_path=overlay_image_path,
+                session_id=session_id,
+                target_width=target_width,
+                target_height=target_height,
+                page_name=page_name,
+                green_screen=video_edits.get("green_screen", (0,0,0,0)),
+            )
             
             final_video_path, video_temp_files = create_video_over_image(
-                image_path=overlay_image_path,
+                image_path=processed_overlay_path,
                 page_name=page_name,
                 video_path=video_src,
                 session_id=session_id,
@@ -132,6 +155,9 @@ def video_editor(text: dict,page_name:str,assets:dict ,video_edits: dict, html_t
                 x=video_rect.get("x"),
                 y=video_rect.get("y"),
                 padding = video_edits.get("padding", 0),
+                add_gradient=video_edits.get("add_gradient", True),
+                type=video_edits.get("type", "bottom_to_top"),
+                gradient_color=video_edits.get("gradient_color", (0,0,0,0)),
             )
 
         if not final_video_path:
@@ -241,31 +267,28 @@ def text_editor(
 
 # Test function for development
 if __name__ == "__main__":
-    from src.templates.laughter_colors.headline import laughter_colors_headline_template
+    from src.templates.marketing_stories.carousel import carousel_template
     ## Test Image Workflow
-    # final_image = text_editor(
-    #     template=founders_template['slides']['founders_slide'],
-    #     page_name="the_startup_journey",
-    #     image_edits={"crop_type": "contain" },
-    #     video_edits={},
-    #     text={"headline": "**DON'T START WITH THE GOAL OF**\n'DOING A STARTUP.' THE RISK IS THAT\nYOU MIGHT GET MARRIED TO THE\nWRONG IDEA TOO EARLY", "subtext":"-Nithin Kamath, Co-founder of Zerodha"},
-    #     assets={"background_image":"test.png"},
-    #     is_video=False,
-    #     session_id="test",
-    # )
-    final_video = text_editor(
-        template=laughter_colors_headline_template['slides']['headline_slide'],
-        page_name="laughter_colors",
-        image_edits={},
-        video_edits={"type": "video_overlay", "crop_type":"cover",
-        "class_name":"image-container",
-        "green_screen": (128,128,128,1),
-        "padding": 256},
-        text={"headline": "For the first time in ","subtext":"Indian Railway history passengers are allowed to change their booking dates instead of cancelling"},
-        assets={"background_video": "./data_/4.mp4"},
-        is_video=True,
+    final_image = text_editor(
+        template=carousel_template['slides']['content_slide'],
+        page_name="marketing_stories",
+        image_edits={"crop_type": "cover" },
+        video_edits={},
+        text={"headline": "**DON'T START WITH THE GOAL OF**\n'DOING A STARTUP.' THE RISK IS THAT\nYOU MIGHT GET MARRIED TO THE\nWRONG IDEA TOO EARLY"},
+        assets={"background_image":"test.png"},
+        is_video=False,
         session_id="test",
     )
+    # final_video = text_editor(
+    #     template=carousel_template['slides']['content_slide'],
+    #     page_name="marketing_stories",
+    #     image_edits={},
+    #     video_edits={"crop_type": "contain","green_screen": (128,128,128,1), "type": "image_overlay", "gradient": "top_to_bottom", "gradient_color": (255,255,255,1)},
+    #     text={"headline": "**The powerful speech of this Nepali!**\n student is braking the internet"},
+    #     assets={"background_image": "./data_/test.png"},
+    #     is_video=True,
+    #     session_id="test",
+    # )
 
     # with open("./data_/test_out.png", "wb") as f:
     #     f.write(final_image)

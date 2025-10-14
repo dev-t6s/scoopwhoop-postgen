@@ -42,7 +42,7 @@ def capture_html_screenshot(
     element_selector: str,
     output: str = "./data/scoopwhoop/element_screenshot.png",
     zoom: float = 1.0,
-    delay: float = 0.6,
+    delay: float = 2,
     headless: bool = True,
     get_video: bool = False,
     class_name:str = ''
@@ -213,7 +213,8 @@ def create_gradient_overlay(
 
 def process_overlay_for_transparency(
     image_path: str, session_id: str, target_width: int = 576, target_height: int = 720, page_name: str = "scoopwhoop", 
-    green_screen: tuple = (255,255,255,0)
+    green_screen: tuple = (255,255,255,0),
+    tolerance: int = 100
 ) -> str:
     """
     Process overlay image to make black areas transparent
@@ -225,8 +226,13 @@ def process_overlay_for_transparency(
 
         for pixel in pixels:
             r, g, b, a = pixel
-            if r == green_screen[0] and g == green_screen[1] and b == green_screen[2]:
-                new_pixels.append((255, 255, 255, 0))  # Make black transparent
+            
+            # Check if pixel color is within tolerance of green screen color
+            if (abs(r - green_screen[0]) <= tolerance and 
+                abs(g - green_screen[1]) <= tolerance and 
+                abs(b - green_screen[2]) <= tolerance):
+                # Make pixels matching green screen color fully transparent
+                new_pixels.append((r, g, b, 0))
             else:
                 new_pixels.append(pixel)
 

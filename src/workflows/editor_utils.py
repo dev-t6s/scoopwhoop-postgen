@@ -47,14 +47,14 @@ def create_image_over_video(
     gradient_color: tuple = (0, 0, 0, 0),
 ) -> Tuple[bytes, str]:
     """ 
-    Create final video with fixed size scaling to 576x720
+    Create final video with fixed size scaling to target_widthxtarget_height
     """
     try:
         video_clip = VideoFileClip(video_path)
         (original_width, original_height) = video_clip.size
 
         # STEP 1: Crop to 4:5 ratio first
-        target_ratio = 4 / 5  # 576/720 = 0.8
+        target_ratio = target_width / target_height  # 576/720 = 0.8
         original_ratio = original_width / original_height
 
         if original_ratio > target_ratio:
@@ -145,7 +145,21 @@ def create_image_over_video(
         return None, []
 
 
-def create_video_over_image(image_path:str, page_name:str, video_path:str, session_id:str, max_scale:float = 0.8, duration:float = None, width:int = 0, height:int = 0, x:int = 0, y:int = 0, padding:int = 0) -> Tuple[str, str]:
+def create_video_over_image(
+    image_path:str, 
+    page_name:str, 
+    video_path:str, 
+    session_id:str, 
+    max_scale:float = 0.8, 
+    width:int = 0, 
+    height:int = 0, 
+    x:int = 0, 
+    y:int = 0, 
+    padding:int = 0, 
+    add_gradient:bool = True, 
+    type:Literal["top_to_bottom", "bottom_to_top"] = "bottom_to_top", 
+    gradient_color:tuple = (0, 0, 0, 0)  
+    ) -> Tuple[str, str]:
     """
     Create a video with a background image and a video overlay
     Uses Selenium coordinates to position video with CSS-like styling (width: 100%, height: 80%, object-fit: cover)
@@ -154,7 +168,6 @@ def create_video_over_image(image_path:str, page_name:str, video_path:str, sessi
         # Load the background image
         background = ImageClip(image_path)
         bg_width, bg_height = background.size
-
         # Load the video to overlay
         video_clip = VideoFileClip(video_path)
         original_width, original_height = video_clip.size
@@ -218,16 +231,30 @@ def create_video_over_image(image_path:str, page_name:str, video_path:str, sessi
         # Create composite video with background
         background = background.with_duration(final_clip.duration)
         
+        final_layers = []
         # Position the video using Selenium coordinates
         if x>=0 and y>=0:
             # Use exact Selenium coordinates for positioning
-            final_video = CompositeVideoClip([background, final_clip.with_position((x - (width - padding)//2 , y))])
+            final_layers.append(final_clip.with_position((x - (width - padding)//2 , y)))
         else:
             # Center the video if no coordinates provided
-            final_video = CompositeVideoClip([background, final_clip.with_position("center")])
+            final_layers.append(final_clip.with_position("center"))
+
+        
+        if add_gradient:
+            gradient_img = create_gradient_overlay(bg_width, bg_height, type=type, color=gradient_color)
+            gradient_path = f"./data/{page_name}/temp/gradient_{session_id}.png"
+            gradient_img.save(gradient_path, "PNG")
+            gradient_clip = ImageClip(gradient_path).with_duration(final_clip.duration)
+            final_layers.append(gradient_clip)
+        else:
+            gradient_path = None
+        
+        final_layers.append(background)
 
         # Write the result
         output_path = f"./data/{page_name}/temp/final_video_{session_id}.mp4"
+        final_video = CompositeVideoClip(final_layers, size = (bg_width, bg_height))
         final_video.write_videofile(
             output_path,
             codec="libx264",
@@ -245,7 +272,7 @@ def create_video_over_image(image_path:str, page_name:str, video_path:str, sessi
         video_clip.close()
         final_video.close()
 
-        return output_path, [image_path, video_path]
+        return output_path, [image_path, video_path, gradient_path]
     except Exception as e:
         print(f"Error during video processing: {e}")
         return None, []
