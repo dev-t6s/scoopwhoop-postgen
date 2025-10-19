@@ -102,15 +102,20 @@ HEADLINE_SLIDE_TEMPLATE = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SW Template</title>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@700&display=swap");
-      @import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+      @font-face {{
+        font-family: "Cook Conthic";
+        src: url("cookconthic.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
+      }}
       body,
       html {{
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: "Bebas Neue", sans-serif;
-        background-color: #f0f0f0;
+        font-family: "Cook Conthic", sans-serif;
+        background-color: black;
       }}
 
       .container {{
@@ -131,6 +136,21 @@ HEADLINE_SLIDE_TEMPLATE = """
         object-position: center 25%;
       }}
 
+      .top-left-gradient {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at 0% 0%,
+          rgba(0, 0, 0, 0.7) 0%,
+          rgba(0, 0, 0, 0) 30%
+        );
+        z-index: 0;
+        pointer-events: none;
+      }}
+
       .logo {{
         position: absolute;
         top: 40px;
@@ -144,65 +164,70 @@ HEADLINE_SLIDE_TEMPLATE = """
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 1) 30%,
-          rgba(0, 0, 0, 0) 100%
-        );
-        padding: 60px 40px 70px 40px;
+        padding: 200px 40px 70px 40px;
         color: white;
         text-align: center;
+
+        background: radial-gradient(
+          90% 100% at 50% 100%,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(0, 0, 0, 0.90) 40%,
+          rgba(0, 0, 0, 0.85) 60%,
+          rgba(0, 0, 0, 0) 100%
+        );
       }}
+      
 
       .first-line {{
-        font-size: 110px;
+        font-size: 120px;
         font-weight: 590;
         line-height: 1.2;
+        font-family: "Cook Conthic";
         display: block; /* Changed from inline-block */
         transform: scaleY(1.1);
       }}
 
       .highlight {{
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         color: black;
-        padding: 5px 20px 0px 20px;
-        font-size: 110px;
+        padding: 0px 10px 5px 10px;
+        font-size: 120px;
         display: block; /* Changed from inline-block */
-        font-weight: 590;
-        line-height: 1.2;
+        font-weight: 500;
+        line-height: 0.8;
         transform: scaleY(1.1);
+        font-family: "Cook Conthic";
         /* The following properties help to center the block and fit the background to the text */
         margin-left: auto;
         margin-right: auto;
         width: -moz-fit-content;
         width: fit-content;
-      }}
+      }}    
 
       .dashed-line {{
         width: 780px;
-        height: 3px; /* thickness of line */
+        height: 4px; /* thickness of line */
         margin: 28px auto 20px auto;
         background-image: repeating-linear-gradient(
           to right,
-          white 0 3px,
-          /* dash length */ transparent 10px 15px /* gap length */
+          white 0 5px,
+          /* dash length */ transparent 12px /* gap length */
         );
       }}
 
       .yellow {{
-        color: #FBE10A;
+        color: #e9dc01;
       }}
 
       .sub-heading {{
-        background-color: white;
-        color: black;
-        font-family: "Golos Text", sans-serif;
-        font-weight: 700;
-        font-size: 32px;
-        padding: 8px 40px;
+        background-color: #0a4e9a;
+        color: white;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 36px;
+        padding: 8px 30px;
         display: block; /* Changed from inline-block */
-        border-radius: 3px;
-        letter-spacing: 0px;
+        line-height: 1;
         /* The following properties help to center the block and fit the background to the text */
         margin-left: auto;
         margin-right: auto;
@@ -210,9 +235,9 @@ HEADLINE_SLIDE_TEMPLATE = """
         width: fit-content;
       }}
     </style>
-  </head>
   <body>
     <div class="container">
+      <div class="top-left-gradient"></div>
       <img src="{logo_image}" alt="SW Logo" class="logo" />
       <img src="{background_image}" class="background-image" />
       <div class="text-overlay">
@@ -235,15 +260,20 @@ HEADLINE_SLIDE_OVERLAY_TEMPLATE = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SW Template</title>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@700&display=swap");
-      @import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+      @font-face {{
+        font-family: "Cook Conthic";
+        src: url("cookconthic.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
+      }}
       body,
       html {{
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: "Bebas Neue", sans-serif;
-        background-color: #000000;
+        font-family: "Cook Conthic", sans-serif;
+        background-color: black;
       }}
 
       .container {{
@@ -267,65 +297,61 @@ HEADLINE_SLIDE_OVERLAY_TEMPLATE = """
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 1) 30%,
-          rgba(0, 0, 0, 0) 100%
-        );
-        padding: 60px 40px 70px 40px;
+        padding: 200px 40px 70px 40px;
         color: white;
         text-align: center;
       }}
 
       .first-line {{
-        font-size: 110px;
+        font-size: 120px;
         font-weight: 590;
         line-height: 1.2;
+        font-family: "Cook Conthic";
         display: block; /* Changed from inline-block */
         transform: scaleY(1.1);
       }}
 
       .highlight {{
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         color: black;
-        padding: 5px 20px 0px 20px;
-        font-size: 110px;
+        padding: 0px 10px 5px 10px;
+        font-size: 120px;
         display: block; /* Changed from inline-block */
-        font-weight: 590;
-        line-height: 1.2;
+        font-weight: 500;
+        line-height: 0.8;
         transform: scaleY(1.1);
+        font-family: "Cook Conthic";
         /* The following properties help to center the block and fit the background to the text */
         margin-left: auto;
         margin-right: auto;
         width: -moz-fit-content;
         width: fit-content;
-      }}
+      }}    
 
       .dashed-line {{
         width: 780px;
-        height: 3px; /* thickness of line */
+        height: 4px; /* thickness of line */
         margin: 28px auto 20px auto;
         background-image: repeating-linear-gradient(
           to right,
-          white 0 3px,
-          /* dash length */ transparent 10px 15px /* gap length */
+          white 0 5px,
+          /* dash length */ transparent 12px /* gap length */
         );
       }}
 
       .yellow {{
-        color: #FBE10A;
+        color: #e9dc01;
       }}
 
       .sub-heading {{
-        background-color: white;
-        color: black;
-        font-family: "Golos Text", sans-serif;
-        font-weight: 700;
-        font-size: 32px;
-        padding: 8px 40px;
+        background-color: #0a4e9a;
+        color: white;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 36px;
+        padding: 8px 30px;
         display: block; /* Changed from inline-block */
-        border-radius: 3px;
-        letter-spacing: 0px;
+        line-height: 1;
         /* The following properties help to center the block and fit the background to the text */
         margin-left: auto;
         margin-right: auto;
@@ -333,7 +359,6 @@ HEADLINE_SLIDE_OVERLAY_TEMPLATE = """
         width: fit-content;
       }}
     </style>
-  </head>
   <body>
     <div class="container">
       <img src="{logo_image}" alt="SW Logo" class="logo" />
@@ -357,15 +382,20 @@ TIMELINE_START_SLIDE_TEMPLATE = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SW Template - Modular Timeline</title>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@700&display=swap");
-      @import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
       body,
       html {{
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: "Bebas Neue", sans-serif;
-        background-color: #f0f0f0;
+        font-family: "Roboto", sans-serif;
+        background-color: black;
+      }}
+      @font-face {{
+        font-family: "Cook Conthic";
+        src: url("cookconthic.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
       }}
 
       .container {{
@@ -386,6 +416,22 @@ TIMELINE_START_SLIDE_TEMPLATE = """
         object-position: center 25%;
       }}
 
+      /* Subtle radial gradient from top-left fading toward center */
+      .top-left-gradient {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at 0% 0%,
+          rgba(0, 0, 0, 0.7) 0%,
+          rgba(0, 0, 0, 0) 30%
+        );
+        z-index: 0;
+        pointer-events: none;
+      }}
+
       .logo {{
         position: absolute;
         top: 40px;
@@ -401,17 +447,16 @@ TIMELINE_START_SLIDE_TEMPLATE = """
         right: 0;
         background: linear-gradient(
           to top,
-          rgba(0, 0, 0, 0.9) 10%,
-          rgba(0, 0, 0, 0.9) 40%,
-          rgba(0, 0, 0, 0.8) 50%,
-          rgba(0, 0, 0, 0.5) 70%,
+          rgba(0, 0, 0, 0.95) 30%,
+          rgba(0, 0, 0, 0.8) 55%,
+          rgba(0, 0, 0, 0.5) 72%,
+          rgba(0, 0, 0, 0.4) 75%,
           rgba(0, 0, 0, 0) 100%
         );
         padding: 40px 80px 20px 80px;
         color: white;
         text-align: center;
-         /* --- FIX STARTS HERE --- */
-        height: 550px; /* This gives the overlay a fixed height. */
+        height: 500px; /* This gives the overlay a fixed height. */
         box-sizing: border-box; /* This ensures padding is included in the height calculation, not added to it. */
         /* --- FIX ENDS HERE --- */
       }}
@@ -419,18 +464,18 @@ TIMELINE_START_SLIDE_TEMPLATE = """
       /* --- MODULAR TIMELINE STYLES START --- */
 
       /* This is the flex container for the line-circle-line structure */
-      .timeline-track {{
+      .timeline-track {{    
         display: flex;
         align-items: center;
         /* Use negative margin to break out of the parent's padding */
         margin: 0 -80px;
-        margin-bottom: 50px; /* Creates space for the connector to connect */
+        margin-bottom: 40px; /* Creates space for the connector to connect */
       }}
 
       /* Style for the horizontal line elements */
       .line {{
         height: 3px;
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         flex-grow: 1; /* This makes the lines fill the available space */
       }}
       .no_line {{
@@ -443,7 +488,7 @@ TIMELINE_START_SLIDE_TEMPLATE = """
       .circle {{
         width: 25px;
         height: 25px;
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         border-radius: 50%;
         flex-shrink: 0; /* Prevents the circle from shrinking */
         position: relative;
@@ -458,39 +503,38 @@ TIMELINE_START_SLIDE_TEMPLATE = """
         transform: translateX(-50%);
         width: 3px;
         height: 50px; /* Length of the connector line */
-        background-color: #fbe10a;
+        background-color: #e9dc01;
       }}
 
       /* --- MODULAR TIMELINE STYLES END --- */
 
       .timeline-highlight {{
-        background-color: #fbe10a;
-        color: black;
-        padding: 5px 20px 0px 20px;
-        font-size: 95px;
+        background-color: #0a4e9a;
+        color: white;
+        padding: 0px 20px 5px 20px;
+        font-size: 100px;
         display: inline-block;
-        /* margin-top: 2px; Closer to the first line */
-        font-weight: 590;
-        letter-spacing: 2px;
-        /* line-height: 1.1; */
+        font-family: "Cook Conthic";
+        font-weight: 700;
         transform: scaleY(1.1);
+        line-height: 0.9;
       }}
       .yellow {{
-        color: #FBE10A;
+        color: #e9dc01;
       }}
       .body-text {{
-        font-family: "Golos Text", sans-serif;
+        font-family: "Roboto", sans-serif;
         font-weight: 400;
-        font-size: 34px;
+        font-size: 32px;
         line-height: 1.4;
         text-align: center;
         margin-top: 40px;
         color: #ffffff;
       }}
     </style>
-  </head>
   <body>
     <div class="container">
+      <div class="top-left-gradient"></div>
       <img src="{logo_image}" alt="SW Logo" class="logo" />
       <img src="{background_image}" class="background-image" />
       <div class="text-overlay">
@@ -516,15 +560,20 @@ TIMELINE_START_SLIDE_OVERLAY_TEMPLATE = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SW Template - Modular Timeline</title>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@700&display=swap");
-      @import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
       body,
       html {{
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: "Bebas Neue", sans-serif;
-        background-color: #f0f0f0;
+        font-family: "Roboto", sans-serif;
+        background-color: black;
+      }}
+      @font-face {{
+        font-family: "Cook Conthic";
+        src: url("cookconthic.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
       }}
 
       .container {{
@@ -550,17 +599,16 @@ TIMELINE_START_SLIDE_OVERLAY_TEMPLATE = """
         right: 0;
         background: linear-gradient(
           to top,
-          rgba(0, 0, 0, 0.9) 10%,
-          rgba(0, 0, 0, 0.9) 40%,
-          rgba(0, 0, 0, 0.8) 50%,
-          rgba(0, 0, 0, 0.5) 70%,
+          rgba(0, 0, 0, 0.95) 30%,
+          rgba(0, 0, 0, 0.8) 55%,
+          rgba(0, 0, 0, 0.5) 72%,
+          rgba(0, 0, 0, 0.4) 75%,
           rgba(0, 0, 0, 0) 100%
         );
         padding: 40px 80px 20px 80px;
         color: white;
         text-align: center;
-         /* --- FIX STARTS HERE --- */
-        height: 550px; /* This gives the overlay a fixed height. */
+        height: 500px; /* This gives the overlay a fixed height. */
         box-sizing: border-box; /* This ensures padding is included in the height calculation, not added to it. */
         /* --- FIX ENDS HERE --- */
       }}
@@ -568,18 +616,18 @@ TIMELINE_START_SLIDE_OVERLAY_TEMPLATE = """
       /* --- MODULAR TIMELINE STYLES START --- */
 
       /* This is the flex container for the line-circle-line structure */
-      .timeline-track {{
+      .timeline-track {{    
         display: flex;
         align-items: center;
         /* Use negative margin to break out of the parent's padding */
         margin: 0 -80px;
-        margin-bottom: 50px; /* Creates space for the connector to connect */
+        margin-bottom: 40px; /* Creates space for the connector to connect */
       }}
 
       /* Style for the horizontal line elements */
       .line {{
         height: 3px;
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         flex-grow: 1; /* This makes the lines fill the available space */
       }}
       .no_line {{
@@ -592,7 +640,7 @@ TIMELINE_START_SLIDE_OVERLAY_TEMPLATE = """
       .circle {{
         width: 25px;
         height: 25px;
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         border-radius: 50%;
         flex-shrink: 0; /* Prevents the circle from shrinking */
         position: relative;
@@ -607,37 +655,35 @@ TIMELINE_START_SLIDE_OVERLAY_TEMPLATE = """
         transform: translateX(-50%);
         width: 3px;
         height: 50px; /* Length of the connector line */
-        background-color: #fbe10a;
+        background-color: #e9dc01;
       }}
 
       /* --- MODULAR TIMELINE STYLES END --- */
 
       .timeline-highlight {{
-        background-color: #fbe10a;
-        color: black;
-        padding: 5px 20px 0px 20px;
-        font-size: 95px;
+        background-color: #0a4e9a;
+        color: white;
+        padding: 0px 20px 5px 20px;
+        font-size: 100px;
         display: inline-block;
-        /* margin-top: 2px; Closer to the first line */
-        font-weight: 590;
-        letter-spacing: 2px;
-        /* line-height: 1.1; */
+        font-family: "Cook Conthic";
+        font-weight: 700;
         transform: scaleY(1.1);
+        line-height: 0.9;
       }}
       .yellow {{
-        color: #FBE10A;
+        color: #e9dc01;
       }}
       .body-text {{
-        font-family: "Golos Text", sans-serif;
+        font-family: "Roboto", sans-serif;
         font-weight: 400;
-        font-size: 34px;
+        font-size: 32px;
         line-height: 1.4;
         text-align: center;
         margin-top: 40px;
         color: #ffffff;
       }}
     </style>
-  </head>
   <body>
     <div class="container">
       <img src="{logo_image}" alt="SW Logo" class="logo" />
@@ -664,15 +710,20 @@ TIMELINE_MIDDLE_SLIDE_TEMPLATE = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SW Template - Modular Timeline</title>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@700&display=swap");
-      @import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
       body,
       html {{
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: "Bebas Neue", sans-serif;
-        background-color: #f0f0f0;
+        font-family: "Roboto", sans-serif;
+        background-color: black;
+      }}
+      @font-face {{
+        font-family: "Cook Conthic";
+        src: url("cookconthic.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
       }}
 
       .container {{
@@ -693,6 +744,22 @@ TIMELINE_MIDDLE_SLIDE_TEMPLATE = """
         object-position: center 25%;
       }}
 
+      /* Subtle radial gradient from top-left fading toward center */
+      .top-left-gradient {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at 0% 0%,
+          rgba(0, 0, 0, 0.7) 0%,
+          rgba(0, 0, 0, 0) 30%
+        );
+        z-index: 0;
+        pointer-events: none;
+      }}
+
       .logo {{
         position: absolute;
         top: 40px;
@@ -708,17 +775,16 @@ TIMELINE_MIDDLE_SLIDE_TEMPLATE = """
         right: 0;
         background: linear-gradient(
           to top,
-          rgba(0, 0, 0, 0.9) 10%,
-          rgba(0, 0, 0, 0.9) 40%,
-          rgba(0, 0, 0, 0.8) 50%,
-          rgba(0, 0, 0, 0.5) 70%,
+          rgba(0, 0, 0, 0.95) 30%,
+          rgba(0, 0, 0, 0.8) 55%,
+          rgba(0, 0, 0, 0.5) 72%,
+          rgba(0, 0, 0, 0.4) 75%,
           rgba(0, 0, 0, 0) 100%
         );
         padding: 40px 80px 20px 80px;
         color: white;
         text-align: center;
-         /* --- FIX STARTS HERE --- */
-        height: 550px; /* This gives the overlay a fixed height. */
+        height: 500px; /* This gives the overlay a fixed height. */
         box-sizing: border-box; /* This ensures padding is included in the height calculation, not added to it. */
         /* --- FIX ENDS HERE --- */
       }}
@@ -726,18 +792,18 @@ TIMELINE_MIDDLE_SLIDE_TEMPLATE = """
       /* --- MODULAR TIMELINE STYLES START --- */
 
       /* This is the flex container for the line-circle-line structure */
-      .timeline-track {{
+      .timeline-track {{    
         display: flex;
         align-items: center;
         /* Use negative margin to break out of the parent's padding */
         margin: 0 -80px;
-        margin-bottom: 50px; /* Creates space for the connector to connect */
+        margin-bottom: 40px; /* Creates space for the connector to connect */
       }}
 
       /* Style for the horizontal line elements */
       .line {{
         height: 3px;
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         flex-grow: 1; /* This makes the lines fill the available space */
       }}
       .no_line {{
@@ -750,7 +816,7 @@ TIMELINE_MIDDLE_SLIDE_TEMPLATE = """
       .circle {{
         width: 25px;
         height: 25px;
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         border-radius: 50%;
         flex-shrink: 0; /* Prevents the circle from shrinking */
         position: relative;
@@ -765,30 +831,29 @@ TIMELINE_MIDDLE_SLIDE_TEMPLATE = """
         transform: translateX(-50%);
         width: 3px;
         height: 50px; /* Length of the connector line */
-        background-color: #fbe10a;
+        background-color: #e9dc01;
       }}
 
       /* --- MODULAR TIMELINE STYLES END --- */
 
       .timeline-highlight {{
-        background-color: #fbe10a;
-        color: black;
-        padding: 5px 20px 0px 20px;
-        font-size: 95px;
+        background-color: #0a4e9a;
+        color: white;
+        padding: 0px 20px 5px 20px;
+        font-size: 100px;
         display: inline-block;
-        /* margin-top: 2px; Closer to the first line */
-        font-weight: 590;
-        letter-spacing: 2px;
-        /* line-height: 1.1; */
+        font-family: "Cook Conthic";
+        font-weight: 700;
         transform: scaleY(1.1);
+        line-height: 0.9;
       }}
       .yellow {{
-        color: #FBE10A;
+        color: #e9dc01;
       }}
       .body-text {{
-        font-family: "Golos Text", sans-serif;
+        font-family: "Roboto", sans-serif;
         font-weight: 400;
-        font-size: 34px;
+        font-size: 32px;
         line-height: 1.4;
         text-align: center;
         margin-top: 40px;
@@ -798,6 +863,7 @@ TIMELINE_MIDDLE_SLIDE_TEMPLATE = """
   </head>
   <body>
     <div class="container">
+      <div class="top-left-gradient"></div>
       <img src="{logo_image}" alt="SW Logo" class="logo" />
       <img src="{background_image}" class="background-image" />
       <div class="text-overlay">
@@ -823,15 +889,20 @@ TIMELINE_MIDDLE_SLIDE_OVERLAY_TEMPLATE = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SW Template - Modular Timeline</title>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@700&display=swap");
-      @import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
       body,
       html {{
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: "Bebas Neue", sans-serif;
-        background-color: #f0f0f0;
+        font-family: "Roboto", sans-serif;
+        background-color: black;
+      }}
+      @font-face {{
+        font-family: "Cook Conthic";
+        src: url("cookconthic.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
       }}
 
       .container {{
@@ -857,17 +928,16 @@ TIMELINE_MIDDLE_SLIDE_OVERLAY_TEMPLATE = """
         right: 0;
         background: linear-gradient(
           to top,
-          rgba(0, 0, 0, 0.9) 10%,
-          rgba(0, 0, 0, 0.9) 40%,
-          rgba(0, 0, 0, 0.8) 50%,
-          rgba(0, 0, 0, 0.5) 70%,
+          rgba(0, 0, 0, 0.95) 30%,
+          rgba(0, 0, 0, 0.8) 55%,
+          rgba(0, 0, 0, 0.5) 72%,
+          rgba(0, 0, 0, 0.4) 75%,
           rgba(0, 0, 0, 0) 100%
         );
         padding: 40px 80px 20px 80px;
         color: white;
         text-align: center;
-         /* --- FIX STARTS HERE --- */
-        height: 550px; /* This gives the overlay a fixed height. */
+        height: 500px; /* This gives the overlay a fixed height. */
         box-sizing: border-box; /* This ensures padding is included in the height calculation, not added to it. */
         /* --- FIX ENDS HERE --- */
       }}
@@ -875,18 +945,18 @@ TIMELINE_MIDDLE_SLIDE_OVERLAY_TEMPLATE = """
       /* --- MODULAR TIMELINE STYLES START --- */
 
       /* This is the flex container for the line-circle-line structure */
-      .timeline-track {{
+      .timeline-track {{    
         display: flex;
         align-items: center;
         /* Use negative margin to break out of the parent's padding */
         margin: 0 -80px;
-        margin-bottom: 50px; /* Creates space for the connector to connect */
+        margin-bottom: 40px; /* Creates space for the connector to connect */
       }}
 
       /* Style for the horizontal line elements */
       .line {{
         height: 3px;
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         flex-grow: 1; /* This makes the lines fill the available space */
       }}
       .no_line {{
@@ -899,7 +969,7 @@ TIMELINE_MIDDLE_SLIDE_OVERLAY_TEMPLATE = """
       .circle {{
         width: 25px;
         height: 25px;
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         border-radius: 50%;
         flex-shrink: 0; /* Prevents the circle from shrinking */
         position: relative;
@@ -914,30 +984,29 @@ TIMELINE_MIDDLE_SLIDE_OVERLAY_TEMPLATE = """
         transform: translateX(-50%);
         width: 3px;
         height: 50px; /* Length of the connector line */
-        background-color: #fbe10a;
+        background-color: #e9dc01;
       }}
 
       /* --- MODULAR TIMELINE STYLES END --- */
 
       .timeline-highlight {{
-        background-color: #fbe10a;
-        color: black;
-        padding: 5px 20px 0px 20px;
-        font-size: 95px;
+        background-color: #0a4e9a;
+        color: white;
+        padding: 0px 20px 5px 20px;
+        font-size: 100px;
         display: inline-block;
-        /* margin-top: 2px; Closer to the first line */
-        font-weight: 590;
-        letter-spacing: 2px;
-        /* line-height: 1.1; */
+        font-family: "Cook Conthic";
+        font-weight: 700;
         transform: scaleY(1.1);
+        line-height: 0.9;
       }}
       .yellow {{
-        color: #FBE10A;
+        color: #e9dc01;
       }}
       .body-text {{
-        font-family: "Golos Text", sans-serif;
+        font-family: "Roboto", sans-serif;
         font-weight: 400;
-        font-size: 34px;
+        font-size: 32px;
         line-height: 1.4;
         text-align: center;
         margin-top: 40px;
@@ -971,15 +1040,20 @@ TIMELINE_END_SLIDE_TEMPLATE = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SW Template - Modular Timeline</title>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@700&display=swap");
-      @import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
       body,
       html {{
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: "Bebas Neue", sans-serif;
-        background-color: #f0f0f0;
+        font-family: "Roboto", sans-serif;
+        background-color: black;
+      }}
+      @font-face {{
+        font-family: "Cook Conthic";
+        src: url("cookconthic.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
       }}
 
       .container {{
@@ -1000,6 +1074,22 @@ TIMELINE_END_SLIDE_TEMPLATE = """
         object-position: center 25%;
       }}
 
+      /* Subtle radial gradient from top-left fading toward center */
+      .top-left-gradient {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at 0% 0%,
+          rgba(0, 0, 0, 0.7) 0%,
+          rgba(0, 0, 0, 0) 30%
+        );
+        z-index: 0;
+        pointer-events: none;
+      }}
+
       .logo {{
         position: absolute;
         top: 40px;
@@ -1015,17 +1105,16 @@ TIMELINE_END_SLIDE_TEMPLATE = """
         right: 0;
         background: linear-gradient(
           to top,
-          rgba(0, 0, 0, 0.9) 10%,
-          rgba(0, 0, 0, 0.9) 40%,
-          rgba(0, 0, 0, 0.8) 50%,
-          rgba(0, 0, 0, 0.5) 70%,
+          rgba(0, 0, 0, 0.95) 30%,
+          rgba(0, 0, 0, 0.8) 55%,
+          rgba(0, 0, 0, 0.5) 72%,
+          rgba(0, 0, 0, 0.4) 75%,
           rgba(0, 0, 0, 0) 100%
         );
         padding: 40px 80px 20px 80px;
         color: white;
         text-align: center;
-         /* --- FIX STARTS HERE --- */
-        height: 550px; /* This gives the overlay a fixed height. */
+        height: 500px; /* This gives the overlay a fixed height. */
         box-sizing: border-box; /* This ensures padding is included in the height calculation, not added to it. */
         /* --- FIX ENDS HERE --- */
       }}
@@ -1033,18 +1122,18 @@ TIMELINE_END_SLIDE_TEMPLATE = """
       /* --- MODULAR TIMELINE STYLES START --- */
 
       /* This is the flex container for the line-circle-line structure */
-      .timeline-track {{
+      .timeline-track {{    
         display: flex;
         align-items: center;
         /* Use negative margin to break out of the parent's padding */
         margin: 0 -80px;
-        margin-bottom: 50px; /* Creates space for the connector to connect */
+        margin-bottom: 40px; /* Creates space for the connector to connect */
       }}
 
       /* Style for the horizontal line elements */
       .line {{
         height: 3px;
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         flex-grow: 1; /* This makes the lines fill the available space */
       }}
       .no_line {{
@@ -1057,7 +1146,7 @@ TIMELINE_END_SLIDE_TEMPLATE = """
       .circle {{
         width: 25px;
         height: 25px;
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         border-radius: 50%;
         flex-shrink: 0; /* Prevents the circle from shrinking */
         position: relative;
@@ -1072,30 +1161,29 @@ TIMELINE_END_SLIDE_TEMPLATE = """
         transform: translateX(-50%);
         width: 3px;
         height: 50px; /* Length of the connector line */
-        background-color: #fbe10a;
+        background-color: #e9dc01;
       }}
 
       /* --- MODULAR TIMELINE STYLES END --- */
 
       .timeline-highlight {{
-        background-color: #fbe10a;
-        color: black;
-        padding: 5px 20px 0px 20px;
-        font-size: 95px;
+        background-color: #0a4e9a;
+        color: white;
+        padding: 0px 20px 5px 20px;
+        font-size: 100px;
         display: inline-block;
-        /* margin-top: 2px; Closer to the first line */
-        font-weight: 590;
-        letter-spacing: 2px;
-        /* line-height: 1.1; */
+        font-family: "Cook Conthic";
+        font-weight: 700;
         transform: scaleY(1.1);
+        line-height: 0.9;
       }}
       .yellow {{
-        color: #FBE10A;
+        color: #e9dc01;
       }}
       .body-text {{
-        font-family: "Golos Text", sans-serif;
+        font-family: "Roboto", sans-serif;
         font-weight: 400;
-        font-size: 34px;
+        font-size: 32px;
         line-height: 1.4;
         text-align: center;
         margin-top: 40px;
@@ -1105,6 +1193,7 @@ TIMELINE_END_SLIDE_TEMPLATE = """
   </head>
   <body>
     <div class="container">
+      <div class="top-left-gradient"></div>
       <img src="{logo_image}" alt="SW Logo" class="logo" />
       <img src="{background_image}" class="background-image" />
       <div class="text-overlay">
@@ -1130,15 +1219,20 @@ TIMELINE_END_SLIDE_OVERLAY_TEMPLATE = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SW Template - Modular Timeline</title>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@700&display=swap");
-      @import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
       body,
       html {{
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: "Bebas Neue", sans-serif;
-        background-color: #f0f0f0;
+        font-family: "Roboto", sans-serif;
+        background-color: black;
+      }}
+      @font-face {{
+        font-family: "Cook Conthic";
+        src: url("cookconthic.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
       }}
 
       .container {{
@@ -1164,17 +1258,16 @@ TIMELINE_END_SLIDE_OVERLAY_TEMPLATE = """
         right: 0;
         background: linear-gradient(
           to top,
-          rgba(0, 0, 0, 0.9) 10%,
-          rgba(0, 0, 0, 0.9) 40%,
-          rgba(0, 0, 0, 0.8) 50%,
-          rgba(0, 0, 0, 0.5) 70%,
+          rgba(0, 0, 0, 0.95) 30%,
+          rgba(0, 0, 0, 0.8) 55%,
+          rgba(0, 0, 0, 0.5) 72%,
+          rgba(0, 0, 0, 0.4) 75%,
           rgba(0, 0, 0, 0) 100%
         );
         padding: 40px 80px 20px 80px;
         color: white;
         text-align: center;
-         /* --- FIX STARTS HERE --- */
-        height: 550px; /* This gives the overlay a fixed height. */
+        height: 500px; /* This gives the overlay a fixed height. */
         box-sizing: border-box; /* This ensures padding is included in the height calculation, not added to it. */
         /* --- FIX ENDS HERE --- */
       }}
@@ -1182,18 +1275,18 @@ TIMELINE_END_SLIDE_OVERLAY_TEMPLATE = """
       /* --- MODULAR TIMELINE STYLES START --- */
 
       /* This is the flex container for the line-circle-line structure */
-      .timeline-track {{
+      .timeline-track {{    
         display: flex;
         align-items: center;
         /* Use negative margin to break out of the parent's padding */
         margin: 0 -80px;
-        margin-bottom: 50px; /* Creates space for the connector to connect */
+        margin-bottom: 40px; /* Creates space for the connector to connect */
       }}
 
       /* Style for the horizontal line elements */
       .line {{
         height: 3px;
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         flex-grow: 1; /* This makes the lines fill the available space */
       }}
       .no_line {{
@@ -1206,7 +1299,7 @@ TIMELINE_END_SLIDE_OVERLAY_TEMPLATE = """
       .circle {{
         width: 25px;
         height: 25px;
-        background-color: #fbe10a;
+        background-color: #e9dc01;
         border-radius: 50%;
         flex-shrink: 0; /* Prevents the circle from shrinking */
         position: relative;
@@ -1221,30 +1314,29 @@ TIMELINE_END_SLIDE_OVERLAY_TEMPLATE = """
         transform: translateX(-50%);
         width: 3px;
         height: 50px; /* Length of the connector line */
-        background-color: #fbe10a;
+        background-color: #e9dc01;
       }}
 
       /* --- MODULAR TIMELINE STYLES END --- */
 
       .timeline-highlight {{
-        background-color: #fbe10a;
-        color: black;
-        padding: 5px 20px 0px 20px;
-        font-size: 95px;
+        background-color: #0a4e9a;
+        color: white;
+        padding: 0px 20px 5px 20px;
+        font-size: 100px;
         display: inline-block;
-        /* margin-top: 2px; Closer to the first line */
-        font-weight: 590;
-        letter-spacing: 2px;
-        /* line-height: 1.1; */
+        font-family: "Cook Conthic";
+        font-weight: 700;
         transform: scaleY(1.1);
+        line-height: 0.9;
       }}
       .yellow {{
-        color: #FBE10A;
+        color: #e9dc01;
       }}
       .body-text {{
-        font-family: "Golos Text", sans-serif;
+        font-family: "Roboto", sans-serif;
         font-weight: 400;
-        font-size: 34px;
+        font-size: 32px;
         line-height: 1.4;
         text-align: center;
         margin-top: 40px;
