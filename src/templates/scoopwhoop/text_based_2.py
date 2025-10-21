@@ -44,21 +44,22 @@ TEXT_BASED_HTML_TEMPLATE = """
         padding: 0;
         height: 100%;
         font-family: "Roboto", sans-serif;
+        background-color: black;
         display: flex;
         justify-content: center;
-        align-items: center;
-        transition: background-color 0.4s ease, color 0.4s ease;
       }}
 
       .container {{
         width: 1080px;
         height: 1350px;
         position: relative;
+        background-color: white;
+        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
-        overflow: hidden;
-        border-radius: 40px;
+        flex-direction: column;
+        text-align: center;
         transition: background-color 0.4s ease;
       }}
 
@@ -71,8 +72,7 @@ TEXT_BASED_HTML_TEMPLATE = """
         background: radial-gradient(
           800% 110% at 0% 0%,
           rgba(0, 0, 0, 0.35) 0%,
-          rgba(0, 0, 0, 0.05) 20%,
-          rgba(0, 0, 0, 0) 100%
+          rgba(0, 0, 0, 0) 20%
         );
         z-index: 1;
         pointer-events: none;
@@ -87,60 +87,49 @@ TEXT_BASED_HTML_TEMPLATE = """
         z-index: 2;
       }}
 
-      .card {{
-        position: relative;
-        background-color: #ffffff;
-        border-radius: 40px;
-        padding: 60px 70px;
-        max-width: 720px;
-        text-align: left;
-        z-index: 2;
-        box-shadow: 10px 10px 0px #ffdd00;
-        transition: background-color 0.4s ease, box-shadow 0.4s ease;
-      }}
-
       .headline {{
-        margin: 0;
+        position: relative;
+        z-index: 2;
         font-size: 60px;
         font-weight: 1000;
         color: #1a1a1a;
-        transition: color 0.4s ease;
+        text-shadow: 8px 10px 0px #ffdd00; /* yellow shadow for light mode */
+        line-height: 1.2;
+        transition: color 0.4s ease, text-shadow 0.4s ease;
+        text-align: left;
       }}
 
       .yellow {{
         color: #0072ce;
-        transition: color 0.4s ease;
-      }}    
+      }}
 
-      .subtext {{
-        margin-top: 16px;
+      .subtext {{       
+        position: absolute;
+        bottom: 60px;
+        z-index: 2;
         font-size: 34px;
-        color: #0072ce;
         font-weight: 600;
+        color: #0072ce;
         transition: color 0.4s ease;
       }}
 
-      /* 🌙 Dark mode overrides */
+      /* 🌙 Dark Mode */
       body.dark {{
         background-color: #000000;
       }}
 
       body.dark .container {{
-        background-color: black;
-      }}
-
-      body.dark .card {{
-        background-color: #0072ce;
-        box-shadow: 10px 12px 0px #e9dc01;
+        background-color: #000000;
       }}
 
       body.dark .headline {{
         color: #ffffff;
-      }}
+        text-shadow: none;
+      }}    
 
       body.dark .yellow {{
         color: #e9dc01;
-      }}        
+      }}
 
       body.dark .subtext {{
         color: #e9dc01;
@@ -152,18 +141,17 @@ TEXT_BASED_HTML_TEMPLATE = """
     <div class="container">
       <div class="top-left-gradient"></div>
       <img src="{logo_image}" alt="SW Logo" class="logo" />
-      <div class="card">
-        {headline}
-        {subtext}
-      </div>
+      {headline}
+      {subtext}
     </div>
   </body>
 </html>
+
 """
 
-text_based_1_template = {
+text_based_2_template = {
     "page_name": "scoopwhoop",
-    "template_type": "text_based_1",
+    "template_type": "text_based_2",
     "text_template": {"template_description":TEXT_DESCRIPTION,
             "json_description":JSON_DESCRIPTION},
     "slides": {
