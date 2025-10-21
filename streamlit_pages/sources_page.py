@@ -102,9 +102,13 @@ def show_sources_page():
                     if page_name == "scoopwhoop":
                         template_options = {
                             "Timeline": "timeline",
-                            "Thumbnail": "thumbnail",
-                            "Writeup": "writeup",
-                            "Text Based": "text_based",
+                            "Text Based 1": "text_based_1",
+                            "Text Based 2": "text_based_2",
+                            "Cultural Pieces": "cultural_pieces",
+                            "Opinion Pieces": "opinion_pieces",
+                            "Biz": "biz",
+                            "Ranking": "ranking",
+                            "Body": "body",
                         }
                     elif page_name == "twitter":
                         template_options = {

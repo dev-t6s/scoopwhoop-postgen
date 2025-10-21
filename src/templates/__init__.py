@@ -1,8 +1,13 @@
 from src.templates.scoopwhoop.timeline import timeline_template
-from src.templates.scoopwhoop.thumbnail import thumbnail_template as scoopwhoop_thumbnail_template
-from src.templates.scoopwhoop.writeup import writeup_template
-from src.templates.scoopwhoop.text_based import text_based_template as scoopwhoop_text_based_template
-from src.templates.scoopwhoop.meme import meme_template
+from src.templates.scoopwhoop.cultural_pieces import cultural_pieces_template
+from src.templates.scoopwhoop.opinion_pieces import opinion_pieces_template
+from src.templates.scoopwhoop.biz import biz_template
+from src.templates.scoopwhoop.ranking import ranking_template
+from src.templates.scoopwhoop.body import body_template
+from src.templates.scoopwhoop.text_based_1 import text_based_1_template
+from src.templates.scoopwhoop.text_based_2 import text_based_2_template
+from src.templates.scoopwhoop.reel import reel_template
+from src.templates.scoopwhoop.reel_1 import reel_1_template
 
 from src.templates.twitter.tweet_image import tweet_image_template
 from src.templates.twitter.tweet_text import tweet_text_template
@@ -42,14 +47,24 @@ def get_template_config(template_type: str, page_name: str) -> dict:
     if page_name == "scoopwhoop":
         if template_type == "timeline":
             return timeline_template
-        elif template_type == "thumbnail":
-            return scoopwhoop_thumbnail_template
-        elif template_type == "writeup":
-            return writeup_template
-        elif template_type == "text_based":
-            return scoopwhoop_text_based_template
-        elif template_type == "meme":
-            return meme_template
+        elif template_type == "cultural_pieces":
+            return cultural_pieces_template
+        elif template_type == "opinion_pieces":
+            return opinion_pieces_template
+        elif template_type == "biz":
+            return biz_template
+        elif template_type == "ranking":
+            return ranking_template
+        elif template_type == "body":
+            return body_template
+        elif template_type == "text_based_1":
+            return text_based_1_template
+        elif template_type == "text_based_2":
+            return text_based_2_template
+        elif template_type == "reel":
+            return reel_template
+        elif template_type == "reel_1":
+            return reel_1_template
         else:
             raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
     elif page_name == "twitter":

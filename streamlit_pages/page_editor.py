@@ -253,10 +253,15 @@ def show_media_editor():
     if page_name == "scoopwhoop":
         template_options = {
             "Timeline": "timeline",
-            "Writeup": "writeup",
-            "Thumbnail": "thumbnail",
-            "Meme": "meme",
+            "Cultural Pieces": "cultural_pieces",       
+            "Opinion Pieces": "opinion_pieces", 
+            "Biz": "biz",
+            "Ranking": "ranking",
+            "Body": "body",
         }
+        if file_type == "video":
+            template_options["Reel"] = "reel"
+            template_options["Reel 1"] = "reel_1"
     elif page_name == "twitter":
         template_options = {
             "Tweet Image": "tweet_image",
@@ -421,7 +426,8 @@ def show_text_only_editor():
     # Template options based on page
     if page_name == "scoopwhoop":
         template_options = {
-            "Text Based": "text_based",
+            "Text Based 1": "text_based_1",
+            "Text Based 2": "text_based_2",
         }
     elif page_name == "twitter":
         template_options = {

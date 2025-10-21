@@ -28,8 +28,13 @@ def show_generate_page():
     if page_name == "scoopwhoop":
         template_options = {
             "Timeline": "timeline",
-            "Thumbnail": "thumbnail",
-            "Writeup": "writeup",
+            "Cultural Pieces": "cultural_pieces",
+            "Opinion Pieces": "opinion_pieces",
+            "Biz": "biz",
+            "Ranking": "ranking",
+            "Body": "body",
+            "Text Based 1": "text_based_1",
+            "Text Based 2": "text_based_2",
         }
     elif page_name == "twitter":
         template_options = {
