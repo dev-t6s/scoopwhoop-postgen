@@ -135,10 +135,9 @@ CULTURAL_PIECES_TEMPLATE = """
       .first-line {{
         font-size: 55px;
         font-weight: 400;
-        line-height: 1.2;
+        line-height: 0.9;
         font-family: "Roboto";
         display: block;
-        transform: scaleY(1.1);
         text-align: left;
       }}
 
@@ -148,12 +147,11 @@ CULTURAL_PIECES_TEMPLATE = """
         font-size: 160px;
         display: inline-block;
         font-weight: 500;
-        line-height: 0.8;
-        transform: scaleY(1.1);
+        line-height: 0.9;
         font-family: "Cook Conthic";
       }}
 
-      .yellow {{    
+      .yellow {{
         color: #e9dc01;
       }}
       .sub-heading-container {{
@@ -161,7 +159,7 @@ CULTURAL_PIECES_TEMPLATE = """
         justify-content: flex-end;
         margin-top: 25px;
       }}
-      .sub-heading {{   
+      .sub-heading {{
         background-color: #0a4e9a;
         color: white;
         font-family: "Roboto", sans-serif;
@@ -169,7 +167,7 @@ CULTURAL_PIECES_TEMPLATE = """
         font-size: 30px;
         padding: 8px 15px;
         letter-spacing: 1px;
-        line-height: 1;
+        margin-top: 0px;
         display: inline-block;
       }}
     </style>

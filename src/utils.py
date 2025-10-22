@@ -53,14 +53,14 @@ def capture_html_screenshot(
     options = Options()
     if headless:
         options.add_argument("--headless=new")
-    options.add_argument("--hide-scrollbars")
-    options.add_argument("--window-size=1920,2300")
+    options.add_argument("--window-size=3840,4600")
+    options.add_argument("--high-dpi-support=2")
+    options.add_argument("--force-device-scale-factor=2")
     options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")    
+    options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    
-    # Suppress Chrome DevTools messages
-    options.add_argument("--log-level=2")  # Show warnings and errors only
+    options.add_argument("--hide-scrollbars")
+    options.add_argument("--log-level=2")
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.add_experimental_option('useAutomationExtension', False)
     options.add_argument("--disable-blink-features=AutomationControlled")
