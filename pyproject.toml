@@ -21,5 +21,6 @@ dependencies = [
     "pymongo>=4.6.1",
     "selenium>=4.34.2",
     "streamlit>=1.28.0",
-    "requests>=2.25.1"
+    "requests>=2.25.1",
+    "dnspython>=2.7.0",
 ]
