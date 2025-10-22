@@ -6,6 +6,8 @@ from src.templates.scoopwhoop.ranking import ranking_template
 from src.templates.scoopwhoop.body import body_template
 from src.templates.scoopwhoop.text_based_1 import text_based_1_template
 from src.templates.scoopwhoop.text_based_2 import text_based_2_template
+from src.templates.scoopwhoop.text_based_3 import text_based_3_template
+from src.templates.scoopwhoop.text_based_4 import text_based_4_template
 from src.templates.scoopwhoop.reel import reel_template
 from src.templates.scoopwhoop.reel_1 import reel_1_template
 
@@ -61,6 +63,10 @@ def get_template_config(template_type: str, page_name: str) -> dict:
             return text_based_1_template
         elif template_type == "text_based_2":
             return text_based_2_template
+        elif template_type == "text_based_3":
+            return text_based_3_template
+        elif template_type == "text_based_4":
+            return text_based_4_template
         elif template_type == "reel":
             return reel_template
         elif template_type == "reel_1":

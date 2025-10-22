@@ -109,6 +109,8 @@ def show_sources_page():
                             "Biz": "biz",
                             "Ranking": "ranking",
                             "Body": "body",
+                            "Text Based 3": "text_based_3",
+                            "Text Based 4": "text_based_4",
                         }
                     elif page_name == "twitter":
                         template_options = {

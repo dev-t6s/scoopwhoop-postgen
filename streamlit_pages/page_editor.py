@@ -258,6 +258,8 @@ def show_media_editor():
             "Biz": "biz",
             "Ranking": "ranking",
             "Body": "body",
+            "Text Based 3": "text_based_3",
+            "Text Based 4": "text_based_4",
         }
         if file_type == "video":
             template_options["Reel"] = "reel"

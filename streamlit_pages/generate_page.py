@@ -35,6 +35,8 @@ def show_generate_page():
             "Body": "body",
             "Text Based 1": "text_based_1",
             "Text Based 2": "text_based_2",
+            "Text Based 3": "text_based_3",
+            "Text Based 4": "text_based_4",
         }
     elif page_name == "twitter":
         template_options = {
