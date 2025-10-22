@@ -147,6 +147,12 @@ def text_editor_form(
                         index=options.index(default_value) if default_value in options else 0,
                         key=f"{form_key}_{field_name}_video_selectbox"
                     )
+                elif config.get("type") == "checkbox":
+                    video_edits_input[field_name] = st.checkbox(
+                        f"{display_name}:",
+                        value=True if video_edits_input.get(field_name,"") else False,
+                        key=f"{form_key}_{field_name}_video_checkbox"
+                    )
                 elif config.get("type") == "default":
                     video_edits_input[field_name] = config.get("values", "")
                 
@@ -162,6 +168,12 @@ def text_editor_form(
                         options=options,
                         index=options.index(default_value) if default_value in options else 0,
                         key=f"{form_key}_{field_name}_image_selectbox"
+                    )
+                elif config.get("type") == "checkbox":
+                    image_edits_input[field_name] = st.checkbox(
+                        f"{display_name}:",
+                        value=True if image_edits_input.get(field_name,"") else False,
+                        key=f"{form_key}_{field_name}_image_checkbox"
                     )
                 elif config.get("type") == "default":
                     image_edits_input[field_name] = config.get("default", "")

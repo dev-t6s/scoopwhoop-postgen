@@ -27,6 +27,7 @@ def image_editor(text: dict,page_name:str, assets: dict, image_edits: dict, html
             assets[key] = value.split("/")[-1]
         # Check if this is a text-based template 
         html_content = html_template.format(**assets, **image_edits, **text)
+        print(image_edits)
 
         html_path = f"./data/{page_name}/temp/temp_overlay_{session_id}.html"
         with open(html_path, "w", encoding="utf-8") as f:
@@ -105,13 +106,15 @@ def video_editor(text: dict,page_name:str,assets:dict ,video_edits: dict, html_t
                 page_name=page_name,
                 green_screen=green_screen,
             )
-            
+            print(video_edits)
             final_video_path, video_temp_files = create_image_over_video(
                 video_path=video_src,
                 overlay_image_path=processed_overlay_path,
                 page_name=page_name,
                 session_id=session_id,
                 add_gradient=video_edits.get("add_gradient", True),
+                add_full_gradient=video_edits.get("add_full_gradient", False),
+                add_top_left_gradient=video_edits.get("add_top_left_gradient", False),
                 target_width=target_width,
                 target_height=target_height,
                 crop_type=video_edits.get("crop_type", "cover"),
@@ -156,6 +159,8 @@ def video_editor(text: dict,page_name:str,assets:dict ,video_edits: dict, html_t
                 y=video_rect.get("y"),
                 padding = video_edits.get("padding", 0),
                 add_gradient=video_edits.get("add_gradient", True),
+                add_full_gradient=video_edits.get("add_full_gradient", False),
+                add_top_left_gradient=video_edits.get("add_top_left_gradient", False),
                 type=video_edits.get("type", "bottom_to_top"),
                 gradient_color=video_edits.get("gradient_color", (0,0,0,0)),
             )
@@ -243,6 +248,8 @@ def text_editor(
     for key, value in edits_input.items():
         if key in edits_template and edits_template[key]["type"] in ["default", "dropdown"]:
             processed_edits[key] = value
+        elif key in edits_template and edits_template[key]["type"] == "checkbox":
+            processed_edits[key] = edits_template[key]["html_snippet"] if value else ""
 
     # Call appropriate editor
     if is_video:

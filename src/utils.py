@@ -210,6 +210,93 @@ def create_gradient_overlay(
 
     return img
 
+def create_full_gradient_overlay(
+    width: int, height: int,
+    start_opacity: float = 0.15,
+    end_opacity: float = 0.08
+) -> Image:
+    """
+    Create a slight full gradient overlay image over the entire image
+    
+    Args:
+        width: Width of the overlay
+        height: Height of the overlay
+        start_opacity: Opacity at the top (0.0 to 1.0), default 0.3 (30%)
+        end_opacity: Opacity at the bottom (0.0 to 1.0), default 0.4 (40%)
+    
+    Returns:
+        Image with gradient overlay
+    """
+    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    
+    # Convert opacity to alpha values (0-255 range)
+    start_alpha = int(start_opacity * 255)
+    end_alpha = int(end_opacity * 255)
+    
+    # Create gradient line by line
+    for y in range(height):
+        # Calculate alpha for this line (linear interpolation)
+        alpha = start_alpha + int((end_alpha - start_alpha) * (y / height))
+        draw.line([(0, y), (width, y)], fill=(0, 0, 0, alpha))
+    
+    return img
+
+def create_top_left_gradient_overlay(
+    width: int, height: int,
+    start_opacity: float = 0.4,
+    end_opacity: float = 0.01
+) -> Image:
+    """
+    Create a top left gradient overlay image that fades from the top-left corner
+    (typically used to create a gradient below/around the logo area)
+    
+    Args:
+        width: Width of the overlay
+        height: Height of the overlay
+        start_opacity: Opacity at the top-left corner (0.0 to 1.0), default 0.15
+        end_opacity: Opacity at the edges (0.0 to 1.0), default 0.08
+    
+    Returns:
+        Image with radial gradient overlay from top-left
+    """
+    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    
+    # Convert opacity to alpha values (0-255 range)
+    start_alpha = int(start_opacity * 255)
+    end_alpha = int(end_opacity * 255)
+    
+    # Draw gradient only in top-left 25% area
+    gradient_width = int(width * 0.25)
+    gradient_height = int(height * 0.25)
+    
+    # Calculate gradient radius based on the 25% area diagonal
+    gradient_radius = (gradient_width ** 2 + gradient_height ** 2) ** 0.5
+    
+    # Use concentric circles for smooth radial gradient
+    steps = 200  # Number of gradient steps for smoothness
+    
+    for step in range(steps, 0, -1):  # Draw from outer to inner for proper layering
+        # Calculate distance for this step
+        distance = (gradient_radius / steps) * step
+        
+        # Calculate alpha for this distance
+        ratio = distance / gradient_radius
+        alpha = start_alpha - int((start_alpha - end_alpha) * ratio)
+        
+        # Draw circle centered at (0, 0) with radius = distance
+        bbox = [
+            -distance,  # left
+            -distance,  # top
+            distance,   # right
+            distance    # bottom
+        ]
+        
+        draw.ellipse(bbox, fill=(0, 0, 0, alpha))
+    
+    return img
+
 
 def process_overlay_for_transparency(
     image_path: str, session_id: str, target_width: int = 576, target_height: int = 720, page_name: str = "scoopwhoop", 
@@ -304,5 +391,7 @@ if __name__ == "__main__":
     pass
     # with open("./data_/test_cropped.png","wb") as f:
     #     f.write(crop_image(image_bytes=open("./data_/test.png","rb").read(),bias=0.5))
-    video = capture_html_screenshot(file_path="./data_/bleh_22.html",element_selector=".container",output="./data_/test_out.png",delay=2,headless=True, get_video=True)
-    print(video)
+    # video = capture_html_screenshot(file_path="./data_/bleh_22.html",element_selector=".container",output="./data_/test_out.png",delay=2,headless=True, get_video=True)
+    # print(video)
+    image = create_top_left_gradient_overlay(width=1080, height=1350)
+    image.save("./data_/gradient.png")

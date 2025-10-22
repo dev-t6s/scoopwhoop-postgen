@@ -90,6 +90,7 @@ MEME_UP_HTML_TEMPLATE = """
         margin: auto;
         overflow: hidden;
         background-color: #000;
+        
       }}
       .contain {{
         width: 100%;
@@ -109,12 +110,41 @@ MEME_UP_HTML_TEMPLATE = """
         /* Aligns the image. 'center' horizontally, and 25% from the top vertically to shift it up. */
         /* object-position: center 25%; */
       }}
+      .top-left-gradient {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          800% 110% at 0% 0%,
+          rgba(0, 0, 0, 0.4) 0%,
+          rgba(0, 0, 0, 0.1) 20%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        z-index: 1;
+        pointer-events: none;
+      }}
+      .gradient-overlay {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.2) 0%,
+          rgba(0, 0, 0, 0.1) 100%
+        );
+        pointer-events: none;
+      }}
       .logo {{
         position: absolute;
         top: 50px;
         left: 60px;
         width: 125px;
         filter: brightness(0) invert(1);
+        z-index: 2;
       }}
       .text-overlay {{
         position: absolute;
@@ -123,6 +153,7 @@ MEME_UP_HTML_TEMPLATE = """
         left: 75px;
         right: 75px;
         color: white;
+        z-index: 2;
       }}
       .text-overlay h1 {{
         margin: 0;
@@ -137,6 +168,8 @@ MEME_UP_HTML_TEMPLATE = """
   <body>
     <div class="container">
       <img src="{background_image}" class="{crop_type}" alt="test" />
+      {add_top_left_gradient}
+      {add_gradient_overlay}
       <img src="{logo_image}" alt="SW Logo" class="logo" />
       <div class="text-overlay">{headline}</div>
     </div>
@@ -264,12 +297,41 @@ MEME_DOWN_HTML_TEMPLATE = """
         /* Aligns the image. 'center' horizontally, and 25% from the top vertically to shift it up. */
         /* object-position: center 25%; */
       }}
+      .top-left-gradient {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          800% 110% at 0% 0%,
+          rgba(0, 0, 0, 0.4) 0%,
+          rgba(0, 0, 0, 0.1) 20%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        z-index: 1;
+        pointer-events: none;
+      }}
+      .gradient-overlay {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.2) 0%,
+          rgba(0, 0, 0, 0.1) 100%
+        );
+        pointer-events: none;
+      }}
       .logo {{
         position: absolute;
         top: 50px;
         left: 60px;
         width: 125px;
         filter: brightness(0) invert(1);
+        z-index: 2;
       }}
       .text-overlay {{
         position: absolute;
@@ -278,6 +340,7 @@ MEME_DOWN_HTML_TEMPLATE = """
         left: 75px;
         right: 75px;
         color: white;
+        z-index: 2;
       }}
       .text-overlay h1 {{
         margin: 0;
@@ -292,6 +355,8 @@ MEME_DOWN_HTML_TEMPLATE = """
   <body>
     <div class="container">
       <img src="{background_image}" class="{crop_type}" alt="test" />
+      {add_top_left_gradient}
+      {add_gradient_overlay}
       <img src="{logo_image}" alt="SW Logo" class="logo" />
       <div class="text-overlay">{headline}</div>
     </div>
@@ -419,12 +484,41 @@ MEME_CENTER_HTML_TEMPLATE = """
         /* Aligns the image. 'center' horizontally, and 25% from the top vertically to shift it up. */
         /* object-position: center 25%; */
       }}
+      .top-left-gradient {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          800% 110% at 0% 0%,
+          rgba(0, 0, 0, 0.4) 0%,
+          rgba(0, 0, 0, 0.1) 20%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        z-index: 1;
+        pointer-events: none;
+      }}
+      .gradient-overlay {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.2) 0%,
+          rgba(0, 0, 0, 0.1) 100%
+        );
+        pointer-events: none;
+      }}
       .logo {{
         position: absolute;
         top: 50px;
         left: 60px;
         width: 125px;
         filter: brightness(0) invert(1);
+        z-index: 2;
       }}
       .text-overlay {{
         position: absolute;
@@ -432,6 +526,7 @@ MEME_CENTER_HTML_TEMPLATE = """
         left: 50%;
         transform: translate(-50%, -50%);
         color: white;
+        z-index: 2;
       }}
       .text-overlay h1 {{
         margin: 0;
@@ -446,6 +541,8 @@ MEME_CENTER_HTML_TEMPLATE = """
   <body>
     <div class="container">
       <img src="{background_image}" class="{crop_type}" alt="test" />
+      {add_top_left_gradient}
+      {add_gradient_overlay}
       <img src="{logo_image}" alt="SW Logo" class="logo" />
       <div class="text-overlay">{headline}</div>
     </div>
@@ -552,6 +649,8 @@ meme_template = {
             },
             "image_edits": {
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
+                "add_top_left_gradient": {"type":"checkbox", "html_snippet": '<div class="top-left-gradient"></div>',},
+                "add_gradient_overlay": {"type":"checkbox", "html_snippet": '<div class="gradient-overlay"></div>'},
             },
             "video_edits":{
                 "type": {"type":"default", "values": "image_overlay"},
@@ -559,6 +658,8 @@ meme_template = {
                 "offset": {"type":"default", "values": 75},
                 "add_gradient": {"type":"default", "values": False},
                 "green_screen": {"type":"default", "values": (0, 247, 34, 1)},
+                "add_full_gradient": {"type":"checkbox", "html_snippet": True},
+                "add_top_left_gradient": {"type":"checkbox", "html_snippet": True},
             }
         },
         "meme_down_slide": {
@@ -575,13 +676,17 @@ meme_template = {
             },
             "image_edits": {
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
+                "add_top_left_gradient": {"type":"checkbox", "html_snippet": '<div class="top-left-gradient"></div>',},
+                "add_gradient_overlay": {"type":"checkbox", "html_snippet": '<div class="gradient-overlay"></div>'},
             },
             "video_edits":{
                 "type": {"type":"default", "values": "image_overlay"},
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
                 "offset": {"type":"default", "values": -50},
                 "green_screen": {"type":"default", "values": (0, 247, 34, 1)},
-                "add_gradient": {"type":"default", "values": False}
+                "add_gradient": {"type":"default", "values": False},
+                "add_full_gradient": {"type":"checkbox", "html_snippet": True},
+                "add_top_left_gradient": {"type":"checkbox", "html_snippet": True},
             }
         },
         "meme_center_slide": {
@@ -598,12 +703,16 @@ meme_template = {
             },
             "image_edits": {
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
+                "add_top_left_gradient": {"type":"checkbox", "html_snippet": '<div class="top-left-gradient"></div>',},
+                "add_gradient_overlay": {"type":"checkbox", "html_snippet": '<div class="gradient-overlay"></div>'},
             },
             "video_edits":{
                 "type": {"type":"default", "values": "image_overlay"},
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
                 "offset": {"type":"default", "values": -50},
                 "add_gradient": {"type":"default", "values": False},
+                "add_full_gradient": {"type":"checkbox", "html_snippet": True},
+                "add_top_left_gradient": {"type":"checkbox", "html_snippet": True},
                 "green_screen": {"type":"default", "values": (0, 247, 34, 1)}
             }
         },

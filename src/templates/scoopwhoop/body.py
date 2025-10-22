@@ -110,6 +110,19 @@ BODY_TWO_LINE_TEMPLATE = """
         z-index: 0;
         pointer-events: none;
       }}
+      .gradient-overlay {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.2) 0%,
+          rgba(0, 0, 0, 0.1) 100%
+        );
+        pointer-events: none;
+      }}
 
       .logo {{
         position: absolute;
@@ -166,7 +179,8 @@ BODY_TWO_LINE_TEMPLATE = """
   </head>
   <body>
     <div class="container">
-      <div class="top-left-gradient"></div>
+      {add_top_left_gradient}
+      {add_gradient_overlay}
       <img src="{logo_image}" alt="SW Logo" class="logo" />
       <img
         src="{background_image}"
@@ -266,6 +280,7 @@ BODY_TWO_LINE_OVERLAY_TEMPLATE = """
   </head>
   <body>
     <div class="container">
+      <img src="{logo_image}" alt="SW Logo" class="logo" />
       {first_line}
 
       {second_line}
@@ -325,6 +340,19 @@ BODY_ONE_LINE_TEMPLATE = """
         z-index: 0;
         pointer-events: none;
       }}
+      .gradient-overlay {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.2) 0%,
+          rgba(0, 0, 0, 0.1) 100%
+        );
+        pointer-events: none;
+      }}
 
       .logo {{
         position: absolute;
@@ -368,7 +396,8 @@ BODY_ONE_LINE_TEMPLATE = """
   </head>
   <body>
     <div class="container">
-      <div class="top-left-gradient"></div>
+      {add_top_left_gradient}
+      {add_gradient_overlay}
       <img src="{logo_image}" alt="SW Logo" class="logo" />
       <img
         src="{background_image}"
@@ -485,12 +514,16 @@ body_template = {
             },
             "image_edits": {
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
+                "add_top_left_gradient": {"type":"checkbox", "html_snippet": '<div class="top-left-gradient"></div>',},
+                "add_gradient_overlay": {"type":"checkbox", "html_snippet": '<div class="gradient-overlay"></div>'},
             },
             "video_edits":{
                 "type": {"type":"default", "values": "image_overlay"},
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
                 "offset": {"type":"default", "values": 75},
-                "add_gradient": {"type":"default", "values": False}
+                "add_gradient": {"type":"default", "values": False},
+                "add_full_gradient": {"type":"checkbox", "html_snippet": True},
+                "add_top_left_gradient": {"type":"checkbox", "html_snippet": True},
             }
         },
         "body_one_line_slide": {
@@ -508,12 +541,16 @@ body_template = {
             },
             "image_edits": {
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
+                "add_top_left_gradient": {"type":"checkbox", "html_snippet": '<div class="top-left-gradient"></div>',},
+                "add_gradient_overlay": {"type":"checkbox", "html_snippet": '<div class="gradient-overlay"></div>'},
             },
             "video_edits":{
                 "type": {"type":"default", "values": "image_overlay"},
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
                 "offset": {"type":"default", "values": -50},
-                "add_gradient": {"type":"default", "values": False}
+                "add_gradient": {"type":"default", "values": False},
+                "add_full_gradient": {"type":"checkbox", "html_snippet": True},
+                "add_top_left_gradient": {"type":"checkbox", "html_snippet": True},
             }
         },
     },

@@ -6,6 +6,8 @@ from moviepy import VideoFileClip, ImageClip, CompositeVideoClip
 from src.utils import (
     capture_html_screenshot,
     create_gradient_overlay,
+    create_full_gradient_overlay,
+    create_top_left_gradient_overlay,
 )
 
 def create_overlay_image(
@@ -42,6 +44,8 @@ def create_image_over_video(
     target_height: int = 1350,
     offset: int = 0,
     add_gradient: bool = True,
+    add_full_gradient: bool = False,
+    add_top_left_gradient: bool = False,
     crop_type: str = "cover",
     type: Literal["top_to_bottom", "bottom_to_top"] = "bottom_to_top",
     gradient_color: tuple = (0, 0, 0, 0),
@@ -91,6 +95,7 @@ def create_image_over_video(
             
             final_clip = CompositeVideoClip([resized_clip.with_position((x_pos, y_pos))], size=(target_width, target_height),bg_color=(0, 0, 0))  
         clips_to_composite = [final_clip]
+        gradient_path_list = []
 
         # Add gradient overlay if requested
         if add_gradient:
@@ -98,10 +103,26 @@ def create_image_over_video(
             gradient_path = f"./data/{page_name}/temp/gradient_{session_id}.png"
             gradient_img.save(gradient_path, "PNG")
 
+            gradient_path_list.append(gradient_path)
             gradient_clip = ImageClip(gradient_path).with_duration(final_clip.duration)
             clips_to_composite.append(gradient_clip)
-        else:
-            gradient_path = None
+        if add_full_gradient:
+            gradient_img = create_full_gradient_overlay(target_width, target_height)
+            gradient_path = f"./data/{page_name}/temp/full_gradient_{session_id}.png"
+            gradient_img.save(gradient_path, "PNG")
+
+            gradient_path_list.append(gradient_path)
+            gradient_clip = ImageClip(gradient_path).with_duration(final_clip.duration)
+            clips_to_composite.append(gradient_clip)
+        
+        if add_top_left_gradient:
+            gradient_img = create_top_left_gradient_overlay(target_width, target_height)
+            gradient_path = f"./data/{page_name}/temp/top_left_gradient_{session_id}.png"
+            gradient_img.save(gradient_path, "PNG")
+
+            gradient_path_list.append(gradient_path)
+            gradient_clip = ImageClip(gradient_path).with_duration(final_clip.duration)
+            clips_to_composite.append(gradient_clip)
 
         # Process overlay image to match target dimensions
         overlay_img = Image.open(overlay_image_path)
@@ -138,7 +159,7 @@ def create_image_over_video(
         video_clip.close()
         final_composite.close()
 
-        return output_path, [overlay_image_path, overlay_resized_path, gradient_path]
+        return output_path, [overlay_image_path, overlay_resized_path] + gradient_path_list
 
     except Exception as e:
         print(f"Error during video processing: {e}")
@@ -158,7 +179,9 @@ def create_video_over_image(
     padding:int = 0, 
     add_gradient:bool = True, 
     type:Literal["top_to_bottom", "bottom_to_top"] = "bottom_to_top", 
-    gradient_color:tuple = (0, 0, 0, 0)  
+    gradient_color:tuple = (0, 0, 0, 0),
+    add_full_gradient:bool = False,
+    add_top_left_gradient:bool = False,
     ) -> Tuple[str, str]:
     """
     Create a video with a background image and a video overlay
@@ -240,15 +263,28 @@ def create_video_over_image(
             # Center the video if no coordinates provided
             final_layers.append(final_clip.with_position("center"))
 
-        
+        gradient_path_list = []
         if add_gradient:
             gradient_img = create_gradient_overlay(bg_width, bg_height, type=type, color=gradient_color)
             gradient_path = f"./data/{page_name}/temp/gradient_{session_id}.png"
             gradient_img.save(gradient_path, "PNG")
+            gradient_path_list.append(gradient_path)
             gradient_clip = ImageClip(gradient_path).with_duration(final_clip.duration)
             final_layers.append(gradient_clip)
-        else:
-            gradient_path = None
+        if add_full_gradient:
+            gradient_img = create_full_gradient_overlay(bg_width, bg_height)
+            gradient_path = f"./data/{page_name}/temp/full_gradient_{session_id}.png"
+            gradient_img.save(gradient_path, "PNG")
+            gradient_path_list.append(gradient_path)
+            gradient_clip = ImageClip(gradient_path).with_duration(final_clip.duration)
+            final_layers.append(gradient_clip)
+        if add_top_left_gradient:
+            gradient_img = create_top_left_gradient_overlay(bg_width, bg_height)
+            gradient_path = f"./data/{page_name}/temp/top_left_gradient_{session_id}.png"
+            gradient_img.save(gradient_path, "PNG")
+            gradient_path_list.append(gradient_path)
+            gradient_clip = ImageClip(gradient_path).with_duration(final_clip.duration)
+            final_layers.append(gradient_clip)
         
         final_layers.append(background)
 
@@ -272,7 +308,7 @@ def create_video_over_image(
         video_clip.close()
         final_video.close()
 
-        return output_path, [image_path, video_path, gradient_path]
+        return output_path, [image_path, video_path] + gradient_path_list
     except Exception as e:
         print(f"Error during video processing: {e}")
         return None, []

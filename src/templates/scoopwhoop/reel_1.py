@@ -171,6 +171,8 @@ reel_1_template = {
                 "type": {"type":"default", "values": "image_overlay"},
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"]},
                 "add_gradient": {"type":"default", "values": False},
+                "add_full_gradient": {"type":"checkbox", "html_snippet": True},
+                "add_top_left_gradient": {"type":"checkbox", "html_snippet": True},
             }
         },
     },
