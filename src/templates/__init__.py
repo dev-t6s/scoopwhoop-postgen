@@ -10,6 +10,7 @@ from src.templates.scoopwhoop.text_based_3 import text_based_3_template
 from src.templates.scoopwhoop.text_based_4 import text_based_4_template
 from src.templates.scoopwhoop.reel import reel_template
 from src.templates.scoopwhoop.reel_1 import reel_1_template
+from src.templates.scoopwhoop.meme import meme_template
 
 from src.templates.twitter.tweet_image import tweet_image_template
 from src.templates.twitter.tweet_text import tweet_text_template
@@ -71,6 +72,8 @@ def get_template_config(template_type: str, page_name: str) -> dict:
             return reel_template
         elif template_type == "reel_1":
             return reel_1_template
+        elif template_type == "meme":
+            return meme_template
         else:
             raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
     elif page_name == "twitter":
