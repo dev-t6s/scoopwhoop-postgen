@@ -129,6 +129,7 @@ BIZ_TEMPLATE = """
         transform: scaleY(1);
         margin-bottom: 5px;
         padding-left: 5px;
+        width: 90%;
       }}
 
       .highlight-container {{
@@ -278,6 +279,7 @@ BIZ_TEMPLATE_OVERLAY = """
         transform: scaleY(1);
         margin-bottom: 5px;
         padding-left: 5px;
+        width: 90%;
       }}
 
       .highlight-container {{
@@ -368,7 +370,7 @@ biz_template = {
             "overlay_template": BIZ_TEMPLATE_OVERLAY,
             "text_only": False,
             "text": {
-                    "first_line": {"type": "text", "tag": "div", "class": "first-line"},
+                    "first_line": {"type": "text_area", "tag": "div", "class": "first-line"},
                     "highlight": {"type": "text", "tag": "div", "class": "highlight-text"},
                     "sub_heading": {
                         "type": "text_area",
