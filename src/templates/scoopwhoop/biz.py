@@ -395,6 +395,7 @@ biz_template = {
             "video_edits":{
                 "type": {"type":"default", "values": "image_overlay"},
                 "crop_type": {"type": "dropdown", "values": ["cover", "contain"] , "default": "cover"},
+                "add_top_left_gradient": {"type":"checkbox", "html_snippet": '<div class="top-left-gradient"></div>'},
             }
         },
     },
