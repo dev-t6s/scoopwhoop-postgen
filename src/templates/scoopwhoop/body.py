@@ -118,8 +118,8 @@ BODY_TWO_LINE_TEMPLATE = """
         height: 100%;
         background: linear-gradient(
           to bottom,
-          rgba(0, 0, 0, 0.2) 0%,
-          rgba(0, 0, 0, 0.1) 100%
+          rgba(0, 0, 0, 0.3) 0%,
+          rgba(0, 0, 0, 0.2) 100%
         );
         pointer-events: none;
       }}
@@ -172,7 +172,6 @@ BODY_TWO_LINE_TEMPLATE = """
         color: white;
         font-size: 35px;
         font-weight: 400;
-        opacity: 0.8;
         z-index: 2;
       }}
     </style>
@@ -273,7 +272,6 @@ BODY_TWO_LINE_OVERLAY_TEMPLATE = """
         color: white;
         font-size: 35px;
         font-weight: 400;
-        opacity: 0.8;
         z-index: 2;
       }}
     </style>
@@ -348,10 +346,11 @@ BODY_ONE_LINE_TEMPLATE = """
         height: 100%;
         background: linear-gradient(
           to bottom,
-          rgba(0, 0, 0, 0.2) 0%,
-          rgba(0, 0, 0, 0.1) 100%
+          rgba(0, 0, 0, 0.3) 0%,
+          rgba(0, 0, 0, 0.2) 100%
         );
         pointer-events: none;
+        z-index: 0;
       }}
 
       .logo {{
@@ -389,7 +388,6 @@ BODY_ONE_LINE_TEMPLATE = """
         color: white;
         font-size: 37px;
         font-weight: 400;
-        opacity: 0.7;
         z-index: 2;
       }}
     </style>
@@ -474,7 +472,6 @@ BODY_ONE_LINE_OVERLAY_TEMPLATE = """
         color: white;
         font-size: 37px;
         font-weight: 400;
-        opacity: 0.7;
         z-index: 2;
       }}
     </style>

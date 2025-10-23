@@ -212,8 +212,8 @@ def create_gradient_overlay(
 
 def create_full_gradient_overlay(
     width: int, height: int,
-    start_opacity: float = 0.15,
-    end_opacity: float = 0.08
+    start_opacity: float = 0.2,
+    end_opacity: float = 0.1
 ) -> Image:
     """
     Create a slight full gradient overlay image over the entire image

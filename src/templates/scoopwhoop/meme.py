@@ -163,6 +163,9 @@ MEME_UP_HTML_TEMPLATE = """
         text-align: center;
         -webkit-text-stroke: 2px black;
       }}
+      .yellow {{
+        color: #e9dc01;
+      }}
     </style>
   </head>
   <body>
@@ -242,6 +245,9 @@ MEME_UP_OVERLAY_TEMPLATE = """
         /* line-height: 1.15; */
         text-align: center;
         -webkit-text-stroke: 2px black;
+      }}
+      .yellow {{
+        color: #e9dc01;
       }}
     </style>
   </head>
@@ -350,6 +356,9 @@ MEME_DOWN_HTML_TEMPLATE = """
         text-align: center;
         -webkit-text-stroke: 2px black;
       }}
+      .yellow {{
+        color: #e9dc01;
+      }}
     </style>
   </head>
   <body>
@@ -429,6 +438,9 @@ MEME_DOWN_OVERLAY_TEMPLATE = """
         /* line-height: 1.15; */
         text-align: center;
         -webkit-text-stroke: 2px black;
+      }}
+      .yellow {{
+        color: #e9dc01;
       }}
     </style>
   </head>
@@ -536,6 +548,9 @@ MEME_CENTER_HTML_TEMPLATE = """
         text-align: center;
         -webkit-text-stroke: 2px black;
       }}
+      .yellow {{
+        color: #e9dc01;
+      }}
     </style>
   </head>
   <body>
@@ -615,6 +630,9 @@ MEME_CENTER_OVERLAY_TEMPLATE = """
         /* line-height: 1.15; */
         text-align: center;
         -webkit-text-stroke: 2px black;
+      }}
+      .yellow {{
+        color: #e9dc01;
       }}
     </style>
   </head>

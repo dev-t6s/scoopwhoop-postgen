@@ -173,6 +173,10 @@ BIZ_TEMPLATE = """
         display: inline-block;
         z-index: 1;
       }}
+      
+      .yellow {{
+        color: #e9dc01;
+      }}
 
       .sub-heading {{
         font-family: "Roboto", sans-serif;
@@ -320,6 +324,10 @@ BIZ_TEMPLATE_OVERLAY = """
         color: white;
         display: inline-block;
         z-index: 1;
+      }}
+
+      .yellow {{
+        color: #e9dc01;
       }}
 
       .sub-heading {{

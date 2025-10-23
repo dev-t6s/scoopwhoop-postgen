@@ -125,6 +125,10 @@ HEADLINE_SLIDE_OVERLAY_TEMPLATE = """
       .yellow {{
         color: #0072ce;
       }}
+
+      .subtitle .yellow {{
+        color: #ffeb00;
+      }}
     </style>
   </head>
 

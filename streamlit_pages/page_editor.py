@@ -179,7 +179,7 @@ def text_editor_form(
                     image_edits_input[field_name] = config.get("default", "")
 
         submitted = st.form_submit_button("Generate New Video" if is_video else "Generate New Image", type="primary")
-        st.info("Use \*\*<text>\*\* for highlighting text in Yellow.")
+        st.info("Use \*\*<text>\*\* for highlighting text")
 
         if submitted:
             try:
@@ -506,7 +506,7 @@ def show_text_only_editor():
             text_input = {}
             assets_input = {}
             image_edits_input = {}
-            st.info("Use \*\*<text>\*\* for highlighting text in Yellow.")
+            st.info("Use \*\*<text>\*\* for highlighting text.")
             
             # Get slide config
             slide_config = template_config["slides"][selected_slide]
