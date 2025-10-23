@@ -267,7 +267,7 @@ def show_media_editor():
             "Timeline": "timeline",
             "Cultural Pieces": "cultural_pieces",       
             "Opinion Pieces": "opinion_pieces", 
-            "Biz": "biz",
+            "BAU": "biz",
             "Ranking": "ranking",
             "Body": "body",
             "Text Based 3": "text_based_3",

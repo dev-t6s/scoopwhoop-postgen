@@ -23,6 +23,7 @@ JSON_DESCRIPTION = """
 *   **`image_description`:** One line describing the desired background visual and mood/style.
 *   **`first_line`:** 3–6 words; sentence/title case; plain text only.
 *   **`highlight`:** 2–4 words; ALL CAPS preferred; plain text only.
+*   **`second_line`:** 3–6 words; sentence/title case; plain text only.[OPTIONAL]
 *   **`sub_heading`:** Short kicker (~6–12 words); sentence case; plain text only.
 
 ### Text Input Structure:
@@ -32,6 +33,7 @@ JSON_DESCRIPTION = """
       "text": {{
         "first_line": "str",
         "highlight": "str",
+        "second_line": "str",
         "sub_heading": "str"
       }}
     }}
@@ -120,8 +122,9 @@ BIZ_TEMPLATE = """
         width: 100%;
       }}
 
-      .first-line {{
-        font-size: 54px;
+      .first-line, 
+      .second-line {{
+        font-size: 50px;
         font-weight: 500;
         font-family: "Roboto", sans-serif;
         line-height: 1;
@@ -134,15 +137,18 @@ BIZ_TEMPLATE = """
 
       .highlight-container {{
         position: relative;
-        display: inline-block;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
         margin-bottom: 25px;
-        width: inherit;
-        height: 75px;
+        width: 90%;
+        min-height: 75px;
       }}
 
       .highlight-background,
       .highlight-text {{
-        font-size: 100px;
+        font-size: 90px;
         font-weight: 600;
         font-family: "Roboto";
         line-height: 0.8;
@@ -158,10 +164,10 @@ BIZ_TEMPLATE = """
         background-color: #e9dc01;
         color: transparent;
         z-index: 0;
-      }}    
+      }}
 
       .highlight-text {{
-        position: absolute; /* ✅ relative instead of absolute */
+        position: relative;
         background-color: #0a4e9a;
         color: white;
         display: inline-block;
@@ -192,7 +198,8 @@ BIZ_TEMPLATE = """
             <div class="highlight-background"></div>
             {highlight}
         </div>
-          {sub_heading}
+        {second_line}
+        {sub_heading}
       </div>
     </div>
   </body>
@@ -258,20 +265,14 @@ BIZ_TEMPLATE_OVERLAY = """
         bottom: 0;
         left: 0;
         padding: 220px 0px 40px 40px;
-        background: radial-gradient(
-          90% 100% at 50% 100%,
-          rgba(0, 0, 0, 1) 0%,
-          rgba(0, 0, 0, 0.95) 40%,
-          rgba(0, 0, 0, 0.9) 60%,
-          rgba(0, 0, 0, 0) 100%
-        );
         color: white;
         z-index: 1;
         width: 100%;
       }}
 
-      .first-line {{
-        font-size: 54px;
+      .first-line,
+      .second-line {{
+        font-size: 50px;
         font-weight: 500;
         font-family: "Roboto", sans-serif;
         line-height: 1;
@@ -282,17 +283,20 @@ BIZ_TEMPLATE_OVERLAY = """
         width: 90%;
       }}
 
-      .highlight-container {{
+      .highlight-container {{ 
         position: relative;
-        display: inline-block;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
         margin-bottom: 25px;
-        width: inherit;
-        height: 75px;
+        width: 90%;
+        min-height: 75px;
       }}
 
       .highlight-background,
       .highlight-text {{
-        font-size: 100px;
+        font-size: 90px;
         font-weight: 600;
         font-family: "Roboto";
         line-height: 0.8;
@@ -308,10 +312,10 @@ BIZ_TEMPLATE_OVERLAY = """
         background-color: #e9dc01;
         color: transparent;
         z-index: 0;
-      }}    
+      }}
 
       .highlight-text {{
-        position: absolute; /* ✅ relative instead of absolute */
+        position: relative;
         background-color: #0a4e9a;
         color: white;
         display: inline-block;
@@ -339,7 +343,8 @@ BIZ_TEMPLATE_OVERLAY = """
             <div class="highlight-background"></div>
             {highlight}
         </div>
-          {sub_heading}
+        {second_line}
+        {sub_heading}
       </div>
     </div>
   </body>
@@ -372,6 +377,7 @@ biz_template = {
             "text": {
                     "first_line": {"type": "text_area", "tag": "div", "class": "first-line"},
                     "highlight": {"type": "text", "tag": "div", "class": "highlight-text"},
+                    "second_line": {"type": "text_area", "tag": "div", "class": "second-line"},
                     "sub_heading": {
                         "type": "text_area",
                         "tag": "div",

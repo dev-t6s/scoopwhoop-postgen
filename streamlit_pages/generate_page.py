@@ -30,7 +30,7 @@ def show_generate_page():
             "Timeline": "timeline",
             "Cultural Pieces": "cultural_pieces",
             "Opinion Pieces": "opinion_pieces",
-            "Biz": "biz",
+            "BAU": "biz",
             "Ranking": "ranking",
             "Body": "body",
             "Text Based 1": "text_based_1",
