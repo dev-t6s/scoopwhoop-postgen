@@ -273,6 +273,7 @@ def show_media_editor():
             "Text Based 3": "text_based_3",
             "Text Based 4": "text_based_4",
             "Meme": "meme",
+            "Writeup": "writeup",
         }
         if file_type == "video":
             template_options["Reel"] = "reel"
