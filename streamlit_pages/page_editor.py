@@ -253,10 +253,16 @@ def show_media_editor():
         st.error(f"Error reading uploaded file: {e}")
         return
 
-    # Page selection
+    # Page selection - dynamically build page list based on file type
+    page_options = ["scoopwhoop", "twitter", "social_village", "infomance", "the_sarcastic_indian", "marketing_stories", "laughter_colors", "upsc_world", "the_indian_idiot","the_tatva", "the_startup_journey", "trolls_official", "bws", "desi_standup", "indian_standup", "smart_india_news", "startuptalksindia", "the_dope_indian"]
+    
+    # Add gls only for image files
+    if file_type == "image":
+        page_options.extend(["gls", "trillionaire_culture"])
+    
     page_name = st.selectbox(
         "Select page:",
-        ["scoopwhoop", "twitter", "social_village", "infomance", "the_sarcastic_indian", "marketing_stories", "laughter_colors", "upsc_world", "the_indian_idiot","the_tatva", "the_startup_journey"],
+        page_options,
         help="Choose which page/brand to create content for",
         key="media_editor_page_selectbox"
     )
@@ -288,6 +294,8 @@ def show_media_editor():
             "Content": "content",
             "Thumbnail": "thumbnail"
         }
+        if file_type == "video":
+            template_options["Reel"] = "reel"
     elif page_name == "infomance":
         template_options = {
             "Content": "content",
@@ -329,6 +337,56 @@ def show_media_editor():
             "News": "news",
             "Founders": "founders",
             "Announcement": "announcement",
+        }
+        if file_type == "image":
+            template_options["Thumbnail"] = "thumbnail"
+            template_options["Carousel"] = "carousel"
+    elif page_name == "trolls_official":
+        template_options = {
+            "Headline": "headline",
+        }
+    elif page_name == "trillionaire_culture":
+        template_options = {
+            "Headline": "headline",
+        }
+    elif page_name == "bws":
+        template_options = {
+            "Static Carousel": "static_carousel",
+            "Post": "post",
+        }
+        if file_type == "video":
+            template_options["Reel"] = "reel"
+    elif page_name == "desi_standup":
+        template_options = {}
+        if file_type == "video":
+            template_options["Reel"] = "reel"
+    elif page_name == "gls":
+        template_options = {
+            "Thumbnail": "thumbnail",
+            "Headline": "headline",
+        }
+    elif page_name == "indian_standup":
+        template_options = {}
+        if file_type == "video":
+            template_options["Reel"] = "reel"
+        elif file_type == "image":
+            template_options["Tweet Image"] = "tweet_image"
+    elif page_name == "smart_india_news":
+        template_options = {
+            "Thumbnail": "thumbnail",
+        }
+    elif page_name == "startuptalksindia":
+        if file_type == "image":
+            template_options = {
+                "Thumbnail": "thumbnail",
+            }
+        elif file_type == "video":
+            template_options = {
+                "Reel": "reel",
+            }
+    elif page_name == "the_dope_indian":
+        template_options = {
+            "Writeup": "writeup",
         }
     else:
         template_options = {}

@@ -1,6 +1,6 @@
 TEMPLATE_DESCRIPTION = """
-Twitter Post: This Indian Standup template creates authentic-looking Twitter post images for sharing funny moments, tweets, and Indian standup comedy content. It replicates the Twitter interface with user profile information, verified badge, three-dot menu, tweet text, and optional media attachments. The template is optimized for 1080x1350 dimensions and maintains Twitter's visual design language with proper spacing, typography, and UI elements.
-The template includes customizable user information (name, handle, profile picture) and supports both text-only tweets and tweets with image/video attachments - perfect for capturing hilarious standup moments, relatable comedy tweets, and funny observations.
+Twitter Post: This Indian Standup template creates authentic-looking Twitter post images for sharing funny moments, tweets. It replicates the Twitter interface with user profile information, verified badge, three-dot menu, tweet text, and optional media attachments. The template is optimized for 1080x1350 dimensions and maintains Twitter's visual design language with proper spacing, typography, and UI elements.
+The template includes customizable user information (name, handle, profile picture) and supports both text-only tweets and tweets with image/video attachments
 NOTE: Only one slide is required for this template.
 """
 
@@ -22,7 +22,7 @@ Twitter Post Slide:
 
   ### Text Input:
     {{
-      "name": "twitter_post",
+      "name": "indian_standup_post",
       "image_description": "str",
       "text":{{
       "user_name": "str",
@@ -36,9 +36,8 @@ Twitter Post Slide:
 NOTE: 
 - The template automatically includes Twitter UI elements like the three-dot menu and proper styling
 - Profile picture should be square/circular format for best results
-- Tweet text should be concise, funny, and engaging - focus on comedy, standup moments, and relatable humor
+- Tweet text should be concise, funny, and engaging
 - Use verified_badge for verified comedian accounts or public figures
-- Image/video attachments can include standup performance clips, funny moments, or meme visuals
 """
 
 VERIFIED_BADGE = """
@@ -641,7 +640,7 @@ tweet_image_template = {
                 "profile_pic": {"type":"bytes", "file_type":"png", "default": "profile_pic.png"},
             },
             "image_edits": {
-                "crop_type":{"default":"cover"},
+                "crop_type":{"type":"dropdown", "values":["cover", "contain"], "default":"cover"},
             },
             "video_edits":{
                 "type": {"type":"default", "values": "video_overlay"},

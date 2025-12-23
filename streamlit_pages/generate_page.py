@@ -17,14 +17,14 @@ def show_generate_page():
     st.title("🎨 Generate Content Slides")
     st.markdown("Enter a headline to generate content slides with images")
 
-    # Page selection
+    # Page selection (only pages without circle_image)
     page_name = st.selectbox(
         "Select Page/Brand:",
-        ["scoopwhoop", "twitter", "social_village", "infomance", "the_sarcastic_indian", "marketing_stories", "laughter_colors", "upsc_world", "the_indian_idiot","the_tatva", "the_startup_journey", "the_dope_indian"],
+        ["scoopwhoop", "twitter", "social_village", "infomance", "the_sarcastic_indian", "marketing_stories", "laughter_colors", "upsc_world", "the_indian_idiot", "the_tatva", "the_startup_journey", "the_dope_indian", "trolls_official", "bws", "gls", "indian_standup", "smart_india_news"],
         help="Choose which page/brand to create content for"
     )
     
-    # Template options based on page
+    # Template options based on page (templates without circle_image)
     if page_name == "scoopwhoop":
         template_options = {
             "Timeline": "timeline",
@@ -84,10 +84,33 @@ def show_generate_page():
             "News": "news",
             "Founders": "founders",
             "Announcement": "announcement",
+            "Carousel": "carousel",
         }
     elif page_name == "the_dope_indian":
         template_options = {
             "Writeup": "writeup",
+        }
+    elif page_name == "trolls_official":
+        template_options = {
+            "Headline": "headline",
+        }
+    elif page_name == "bws":
+        template_options = {
+            "Static Carousel": "carousel",
+            "Post": "post",
+        }
+    elif page_name == "gls":
+        template_options = {
+            "Thumbnail": "thumbnail",
+            "Headline": "headline",
+        }
+    elif page_name == "indian_standup":
+        template_options = {
+            "Tweet Image": "tweet_image",
+        }
+    elif page_name == "smart_india_news":
+        template_options = {
+            "Thumbnail": "thumbnail",
         }
     else:
         template_options = {}

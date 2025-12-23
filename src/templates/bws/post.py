@@ -1,11 +1,11 @@
 TEMPLATE_DESCRIPTION = """
-Static Carousel: This BWS (Bharatiya Web Series) template creates engaging carousel slides for social media posts about Indian web series, OTT content, streaming shows, and digital entertainment. It features a full-screen background image with bold centered text overlay using yellow highlighting capabilities. The design includes the "bharatiyawebseries" watermark at the top and uses heavy typography with strong stroke and shadow effects for maximum impact. Perfect for promoting web series content, character introductions, show highlights, and OTT entertainment news.
+Post: This BWS (Bharatiya Web Series) template creates engaging post slides for social media posts about Indian web series, OTT content, streaming shows, and digital entertainment. It features a full-screen background image with bold centered text overlay using yellow highlighting capabilities. The design includes the "bharatiyawebseries" watermark at the top and uses heavy typography with strong stroke and shadow effects for maximum impact. Perfect for promoting web series content, character introductions, show highlights, and OTT entertainment news.
 NOTE: Only one slide is required for this template.
 """
 
 JSON_DESCRIPTION = """
 This template has the following slides/sections:
-Static Carousel Slide:
+Post Slide:
   ### Attributes:
   - This should be an engaging content slide for web series and OTT content. Must have compelling visual and text.
     EX: A still from a popular web series, a character poster, an actor from an OTT show, a dramatic scene from a series.
@@ -19,7 +19,7 @@ Static Carousel Slide:
 
   ### Text Input:
     {{
-      "name": "static_carousel_slide",
+      "name": "post_slide",
       "image_description": "str",
       "text": {{
       "headline": "str"

@@ -19,7 +19,7 @@ MOMENT"
 
   ### Text Input:
     {{
-      "name": "headline_slide",
+      "name": "thumbnail_slide",
       "image_description": "str",
       "text":{{
       "headline": "str",

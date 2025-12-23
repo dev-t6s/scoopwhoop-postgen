@@ -93,30 +93,29 @@ def show_sources_page():
                     # Page/Brand selection (outside form for dynamic updates)
                     page_name = st.selectbox(
                         "Select Page/Brand:",
-                        ["scoopwhoop", "twitter", "social_village", "infomance", "the_sarcastic_indian", "marketing_stories", "laughter_colors", "upsc_world", "the_indian_idiot","the_tatva", "the_startup_journey", "the_dope_indian"],
+                        ["scoopwhoop", "twitter", "social_village", "infomance", "the_sarcastic_indian", "marketing_stories", "laughter_colors", "upsc_world", "the_indian_idiot", "the_tatva", "the_startup_journey", "the_dope_indian", "trolls_official", "bws", "gls", "indian_standup", "smart_india_news"],
                         help="Choose which page/brand to create content for",
                         key=f"page_{idx}"
                     )
                     
-                    # Template options based on selected page
+                    # Template options based on selected page (templates without circle_image)
                     if page_name == "scoopwhoop":
                         template_options = {
                             "Timeline": "timeline",
-                            "Text Based 1": "text_based_1",
-                            "Text Based 2": "text_based_2",
                             "Cultural Pieces": "cultural_pieces",
                             "Opinion Pieces": "opinion_pieces",
                             "BAU": "biz",
                             "Ranking": "ranking",
                             "Body": "body",
+                            "Text Based 1": "text_based_1",
+                            "Text Based 2": "text_based_2",
                             "Text Based 3": "text_based_3",
                             "Text Based 4": "text_based_4",
                             "Meme": "meme",
                         }
                     elif page_name == "twitter":
                         template_options = {
-                            "Tweet Image": "tweet_image",
-                            "Tweet Text": "text_based"
+                            "Tweet Image": "tweet_image"
                         }
                     elif page_name == "social_village":
                         template_options = {
@@ -159,10 +158,33 @@ def show_sources_page():
                             "News": "news",
                             "Founders": "founders",
                             "Announcement": "announcement",
+                            "Carousel": "carousel",
                         }
                     elif page_name == "the_dope_indian":
                         template_options = {
                             "Writeup": "writeup",
+                        }
+                    elif page_name == "trolls_official":
+                        template_options = {
+                            "Headline": "headline",
+                        }
+                    elif page_name == "bws":
+                        template_options = {
+                            "Static Carousel": "carousel",
+                            "Post": "post",
+                        }
+                    elif page_name == "gls":
+                        template_options = {
+                            "Thumbnail": "thumbnail",
+                            "Headline": "headline",
+                        }
+                    elif page_name == "indian_standup":
+                        template_options = {
+                            "Tweet Image": "tweet_image",
+                        }
+                    elif page_name == "smart_india_news":
+                        template_options = {
+                            "Thumbnail": "thumbnail",
                         }
                     else:
                         template_options = {}

@@ -196,7 +196,7 @@ headline_template = {
                 "logo_image": {"default": "logo.png"},
             },
             "image_edits": {
-                "crop_type":{"default":"cover"},
+                "crop_type":{"type":"dropdown", "values":["cover", "contain"], "default":"contain"},
             },
             "video_edits":{
             }

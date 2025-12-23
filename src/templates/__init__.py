@@ -19,6 +19,7 @@ from src.templates.twitter.tweet_tag import tweet_tag_template
 
 from src.templates.social_village.content import content_template
 from src.templates.social_village.thumbnail import thumbnail_template as social_village_thumbnail_template
+from src.templates.social_village.reel import reel_template as social_village_reel_template
 
 from src.templates.the_sarcastic_indian.writeup import writeup_template as sarcastic_writeup_template
 
@@ -37,6 +38,8 @@ from src.templates.the_startup_journey.scheme import scheme_template
 from src.templates.the_startup_journey.news import news_template
 from src.templates.the_startup_journey.founders import founders_template    
 from src.templates.the_startup_journey.announcement import announcement_template
+from src.templates.the_startup_journey.carousel import carousel_template as the_startup_journey_carousel_template
+from src.templates.the_startup_journey.thumbnail import thumbnail_template as the_startup_journey_thumbnail_template
 
 from src.templates.laughter_colors.headline import laughter_colors_headline_template
 
@@ -45,6 +48,27 @@ from src.templates.upsc_world.headline import upsc_world_headline_template
 from src.templates.the_indian_idiot.headline import the_indian_idiot_headline_template
 
 from src.templates.the_dope_indian.writeup import writeup_template as the_dope_indian_writeup_template
+
+from src.templates.trolls_official.headline import trolls_official_headline_template
+
+from src.templates.bws.static_carousel import static_carousel_template
+from src.templates.bws.reel import reel_template as bws_reel_template
+from src.templates.bws.post import post_template as bws_post_template
+
+from src.templates.desi_standup.reel import reel_template as desi_standup_reel_template
+
+from src.templates.gls.thumbnail import thumbnail_template as gls_thumbnail_template
+from src.templates.gls.headline import headline_template as gls_headline_template
+
+from src.templates.indian_standup.reel import reel_template as indian_standup_reel_template
+from src.templates.indian_standup.tweet_image import tweet_image_template as indian_standup_tweet_image_template
+
+from src.templates.smart_india_news.thumbnail import  smart_india_news_thumbnail_template
+
+from src.templates.startuptalksindia.reel import reel_template as startuptalksindia_reel_template
+from src.templates.startuptalksindia.thumbnail import thumbnail_template as startuptalksindia_thumbnail_template
+
+from src.templates.trillionaire_culture.thumbnail import headline_template as trillionaire_culture_headline_template
 
 def get_template_config(template_type: str, page_name: str) -> dict:
     """Get template configuration based on type"""
@@ -94,6 +118,8 @@ def get_template_config(template_type: str, page_name: str) -> dict:
             return content_template
         elif template_type == "thumbnail":
             return social_village_thumbnail_template
+        elif template_type == "reel":
+            return social_village_reel_template
         else:
             raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
     
@@ -137,6 +163,10 @@ def get_template_config(template_type: str, page_name: str) -> dict:
             return founders_template
         elif template_type == "announcement":
             return announcement_template
+        elif template_type == "carousel":
+            return the_startup_journey_carousel_template
+        elif template_type == "thumbnail":
+            return the_startup_journey_thumbnail_template
         else:
             raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
     elif page_name == "laughter_colors":
@@ -159,6 +189,65 @@ def get_template_config(template_type: str, page_name: str) -> dict:
             return the_dope_indian_writeup_template
         else:
             raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
+
+    elif page_name == "trolls_official":
+        if template_type == "headline":
+            return trolls_official_headline_template
+        else:
+            raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
+
+    elif page_name == "bws":
+        if template_type == "carousel":
+            return static_carousel_template
+        elif template_type == "reel":
+            return bws_reel_template
+        elif template_type == "post":
+            return bws_post_template
+        else:
+            raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
+    
+    elif page_name == "desi_standup":
+        if template_type == "reel":
+            return desi_standup_reel_template
+        else:
+            raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
+    
+    elif page_name == "gls":
+        if template_type == "thumbnail":
+            return gls_thumbnail_template
+        elif template_type == "headline":
+            return gls_headline_template
+        else:
+            raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
+
+    elif page_name == "indian_standup":
+        if template_type == "reel":
+            return indian_standup_reel_template
+        elif template_type == "tweet_image":
+            return indian_standup_tweet_image_template
+        else:
+            raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
+    
+    elif page_name == "smart_india_news":
+        if template_type == "thumbnail":
+            return smart_india_news_thumbnail_template
+        else:
+            raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
+    
+    elif page_name == "startuptalksindia":
+        if template_type == "reel":
+            return startuptalksindia_reel_template
+        elif template_type == "thumbnail":
+            return startuptalksindia_thumbnail_template
+        else:
+            raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
+
+    elif page_name == "trillionaire_culture":
+        if template_type == "headline":
+            return trillionaire_culture_headline_template
+        else:
+            raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
+
     else:
         raise ValueError(f"Unknown page name: {page_name}")
         
