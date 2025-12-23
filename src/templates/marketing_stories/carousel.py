@@ -119,7 +119,7 @@ HEADLINE_SLIDE_HTML_TEMPLATE = """
       }}
 
       .headline .yellow {{
-        background: #ffea00; /* Bright yellow highlight */
+        background: #feff03; /* Bright yellow highlight */
         color: #000;
         padding: 2px 6px;
         border-radius: 2px;
@@ -276,7 +276,7 @@ HEADLINE_SLIDE_OVERLAY_TEMPLATE = """
       }}
 
       .headline .yellow {{
-        background: #ffea00; /* Bright yellow highlight */
+        background: #feff03; /* Bright yellow highlight */
         color: #000;
         padding: 2px 6px;
         border-radius: 2px;
