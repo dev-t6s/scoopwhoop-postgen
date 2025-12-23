@@ -4,7 +4,7 @@ The template combines professional news presentation with eye-catching design - 
 """
 
 JSON_DESCRIPTION = """
-This template has the following slides/sections:
+This template has the following slide:
 Thumbnail Slide:
   ### Attributes:
   - image_description: A one line description of the background image you would like to use for the slide.
@@ -34,6 +34,7 @@ NOTE:
 - Headlines work best when short and impactful - focus on the key news angle.
 - Sub-headline should provide essential context or the main story detail.
 - Content should be factual, newsworthy, and focused on pan-India developments.
+- Only one slide is required for this template.
 """
 
 THUMBNAIL_HTML_TEMPLATE = """
