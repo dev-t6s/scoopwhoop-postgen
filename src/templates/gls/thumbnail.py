@@ -194,10 +194,10 @@ thumbnail_template = {
             },
             "assets":{
                 "background_image": {"type":"bytes", "file_type":"png"},
-                "logo_image": {"type":"bytes", "file_type":"png", "default": "logo.png"},
+                "logo_image": {"default": "logo.png"},
             },
             "image_edits": {
-                "crop_type":{"type":"dropdown", "values":["cover", "contain"], "default":"contain"},
+                "crop_type":{"type":"dropdown", "values":["cover", "contain"], "default":"cover"},
             },
             "video_edits":{
             }

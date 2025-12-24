@@ -294,6 +294,8 @@ def show_media_editor():
             "Content": "content",
             "Thumbnail": "thumbnail"
         }
+        if file_type == "image":
+            template_options["Thumbnail 2"] = "thumbnail_2"
         if file_type == "video":
             template_options["Reel"] = "reel"
     elif page_name == "infomance":
@@ -365,6 +367,8 @@ def show_media_editor():
             "Thumbnail": "thumbnail",
             "Headline": "headline",
         }
+        if file_type == "image":
+            template_options["Thumbnail 4"] = "thumbnail_4"
     elif page_name == "indian_standup":
         template_options = {}
         if file_type == "video":

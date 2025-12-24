@@ -19,6 +19,7 @@ from src.templates.twitter.tweet_tag import tweet_tag_template
 
 from src.templates.social_village.content import content_template
 from src.templates.social_village.thumbnail import thumbnail_template as social_village_thumbnail_template
+from src.templates.social_village.thumbnail_2 import thumbnail_template as social_village_thumbnail_2_template
 from src.templates.social_village.reel import reel_template as social_village_reel_template
 
 from src.templates.the_sarcastic_indian.writeup import writeup_template as sarcastic_writeup_template
@@ -59,6 +60,7 @@ from src.templates.desi_standup.reel import reel_template as desi_standup_reel_t
 
 from src.templates.gls.thumbnail import thumbnail_template as gls_thumbnail_template
 from src.templates.gls.headline import headline_template as gls_headline_template
+from src.templates.gls.thumbnail_4 import thumbnail_template as gls_thumbnail_4_template
 
 from src.templates.indian_standup.reel import reel_template as indian_standup_reel_template
 from src.templates.indian_standup.tweet_image import tweet_image_template as indian_standup_tweet_image_template
@@ -118,6 +120,8 @@ def get_template_config(template_type: str, page_name: str) -> dict:
             return content_template
         elif template_type == "thumbnail":
             return social_village_thumbnail_template
+        elif template_type == "thumbnail_2":
+            return social_village_thumbnail_2_template
         elif template_type == "reel":
             return social_village_reel_template
         else:
@@ -217,6 +221,8 @@ def get_template_config(template_type: str, page_name: str) -> dict:
             return gls_thumbnail_template
         elif template_type == "headline":
             return gls_headline_template
+        elif template_type == "thumbnail_4":
+            return gls_thumbnail_4_template
         else:
             raise ValueError(f"Unknown template type for given {page_name}: {template_type}")
 
