@@ -52,7 +52,16 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
 
         post_info = {}
         post_info["code"] = post.get("code", "")
-        post_info["taken_at"] = int(datetime.strptime(post.get("taken_at", "2025-08-29T05:38:02Z"), "%Y-%m-%dT%H:%M:%SZ").timestamp())
+        
+        # Handle taken_at - can be integer timestamp or string
+        taken_at = post.get("taken_at")
+        if isinstance(taken_at, int):
+            post_info["taken_at"] = taken_at
+        elif isinstance(taken_at, str):
+            post_info["taken_at"] = int(datetime.strptime(taken_at, "%Y-%m-%dT%H:%M:%SZ").timestamp())
+        else:
+            # Fallback to current time if not available
+            post_info["taken_at"] = int(datetime.now().timestamp())
         
         # Add user information
         user_data = post.get("user", {})
@@ -73,8 +82,12 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
         elif media_type == 8:
             post_info["type"] = "carousel"
         else:
-            # Fallback or handle other types if necessary
-            post_info["type"] = post.get("product_type", "unknown")
+            # Fallback to media_format or product_type
+            media_format = post.get("media_format", "")
+            if media_format:
+                post_info["type"] = media_format
+            else:
+                post_info["type"] = post.get("product_type", "unknown")
 
         # 2. Likes count
         post_info["like_count"] = post.get("like_count", 0)
@@ -96,7 +109,17 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
             post_info["played_count"] = None  # Not applicable for images
 
         # 5. Extract hashtags and mentions from caption text
-        caption_text = post.get("caption_text", "")
+        # Caption can be None or an object with a 'text' field
+        caption_obj = post.get("caption")
+        if caption_obj is None:
+            caption_text = ""
+        elif isinstance(caption_obj, dict):
+            caption_text = caption_obj.get("text", "")
+        elif isinstance(caption_obj, str):
+            caption_text = caption_obj
+        else:
+            caption_text = str(caption_obj) if caption_obj else ""
+        
         hashtags = []
         mentions = []
         
@@ -124,9 +147,18 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
             for item in carousel_items:
                 # Check if it's an image or video within the carousel
                 if item.get("media_type") == 1:  # Image
-                    image_versions = item.get("image_versions", [])
-                    if image_versions:
-                        # Take the highest quality image (first in list)
+                    image_versions = item.get("image_versions", {})
+                    # New format: image_versions has 'items' array
+                    if isinstance(image_versions, dict) and "items" in image_versions:
+                        image_items = image_versions.get("items", [])
+                        if image_items:
+                            # Take the highest quality image (first in list)
+                            media_list.append({
+                                "url": image_items[0].get("url"),
+                                "type": "image"
+                            })
+                    elif isinstance(image_versions, list) and image_versions:
+                        # Old format: direct array
                         media_list.append({
                             "url": image_versions[0].get("url"),
                             "type": "image"
@@ -158,9 +190,18 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
 
         elif post_info["type"] == "image":
             # For single images, use main image_versions
-            image_versions = post.get("image_versions", [])
-            if image_versions:
-                # Take the highest quality image (first in list)
+            image_versions = post.get("image_versions", {})
+            # New format: image_versions has 'items' array
+            if isinstance(image_versions, dict) and "items" in image_versions:
+                image_items = image_versions.get("items", [])
+                if image_items:
+                    # Take the highest quality image (first in list)
+                    media_list.append({
+                        "url": image_items[0].get("url"),
+                        "type": "image"
+                    })
+            elif isinstance(image_versions, list) and image_versions:
+                # Old format: direct array
                 media_list.append({
                     "url": image_versions[0].get("url"),
                     "type": "image"
@@ -192,8 +233,15 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
                 })
             else:
                 # Fallback to image_versions for thumbnail
-                image_versions = post.get("image_versions", [])
-                if image_versions:
+                image_versions = post.get("image_versions", {})
+                if isinstance(image_versions, dict) and "items" in image_versions:
+                    image_items = image_versions.get("items", [])
+                    if image_items:
+                        media_list.append({
+                            "url": image_items[0].get("url"),
+                            "type": "thumbnail"
+                        })
+                elif isinstance(image_versions, list) and image_versions:
                     media_list.append({
                         "url": image_versions[0].get("url"),
                         "type": "thumbnail"
@@ -228,7 +276,7 @@ def get_latest_instagram_post(page_id:str, last_created_at: int = None, n_posts:
     Get latest Instagram posts for a given page.
     
     Args:
-        page_name: Instagram username or ID
+        page_id: Instagram username or ID
         last_created_at: Unix timestamp - only return posts after this time. If None, get latest n_posts
         n_posts: Maximum number of posts to return (default 10)
     
@@ -239,20 +287,22 @@ def get_latest_instagram_post(page_id:str, last_created_at: int = None, n_posts:
     post_array = []
     should_continue = True
 
-    query_string = {"amount":n_posts,"user_id":page_id}
-    url = "https://instagram-premium-api-2023.p.rapidapi.com/v1/user/medias/chunk"
-    headers = {"x-rapidapi-key": api_key, "x-rapidapi-host": "instagram-premium-api-2023.p.rapidapi.com"}
+    url = "https://instagram-scraper-20251.p.rapidapi.com/userposts/"
+    headers = {"x-rapidapi-key": api_key, "x-rapidapi-host": "instagram-scraper-20251.p.rapidapi.com"}
 
     while should_continue:
+        query_string = {"username_or_id": page_id}
         if pagination_token:
-            query_string["end_cursor"] = pagination_token
+            query_string["pagination_token"] = pagination_token
 
         data = call_rapid_api(url=url, params=query_string, headers=headers)
         if not data:
             return []
 
-        posts = data[0]
-        pagination_token = data[1]
+        # New response structure: {"data": {"items": [...], "count": ..., "user": {...}}, "pagination_token": "..."}
+        response_data = data.get("data", {})
+        posts = response_data.get("items", [])
+        pagination_token = data.get("pagination_token")
 
         if posts:
             posts_info = extract_instagram_post_data(posts)
@@ -459,22 +509,22 @@ def get_tweet_data(tweet_url:str) -> dict:
     return extract_tweet_details(data)
 
 if __name__ == "__main__":
-    # import json 
-    # import pickle
-    # with open("./data_/insta.json","r") as f:
-    #     insta_data = json.load(f)
-    # insta_data = insta_data[:10]
-    # with open("./data_/insta_extracted.p","wb") as f:
-    #     pickle.dump(get_latest_instagram_post(last_created_at=(datetime.now().timestamp() - 86400)),f)
+    import json 
+    import pickle
+    with open("./data_/insta.json","r") as f:
+        insta_data = json.load(f)
+    insta_data = insta_data[:10]
+    with open("./data_/insta_extracted.p","wb") as f:
+        pickle.dump(get_latest_instagram_post(page_id="27990075937",last_created_at=(datetime.now().timestamp() - 86400*10)),f)
     # import json
     # data = get_tweet_data("https://x.com/divyanshiwho/status/1962363623675707434")
     # with open("./data_/tweet_data.json","w") as f:
     #     json.dump(data,f,indent=4)
 
-    import json
-    with open("./data_/tweet_data.json","r") as f:
-        data = json.load(f)
-    print(data.keys())
-    with open("./data_/tweet_data_extracted.json","w") as f:
-        json.dump(extract_tweet_details(data),f,indent=4)
+    # import json
+    # with open("./data_/tweet_data.json","r") as f:
+    #     data = json.load(f)
+    # print(data.keys())
+    # with open("./data_/tweet_data_extracted.json","w") as f:
+    #     json.dump(extract_tweet_details(data),f,indent=4)
     
