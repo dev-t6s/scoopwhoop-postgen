@@ -30,10 +30,12 @@ def call_rapid_api(url: str, params: dict, headers: dict) -> dict:
 def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
     """
     Extracts specific information from a list of Instagram post data dictionaries.
+    Handles the new Instagram API schema with image_versions2.candidates, 1ltaken_at,
+    and updated video_versions structure.
 
     Args:
         posts_data: A list of dictionaries, where each dictionary represents
-                    an Instagram post's data (like the provided example).
+                    an Instagram post's data from the new API schema.
 
     Returns:
         A list of dictionaries, where each dictionary contains the
@@ -53,8 +55,8 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
         post_info = {}
         post_info["code"] = post.get("code", "")
         
-        # Handle taken_at - can be integer timestamp or string
-        taken_at = post.get("taken_at")
+        # Handle taken_at - new schema uses 1ltaken_at, fallback to taken_at for robustness
+        taken_at = post.get("1ltaken_at") or post.get("taken_at")
         if isinstance(taken_at, int):
             post_info["taken_at"] = taken_at
         elif isinstance(taken_at, str):
@@ -142,27 +144,34 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
         # 8. Media list (URLs and types)
         media_list = []
         if post_info["type"] == "carousel":
-            # New format uses 'resources' for carousel items
-            carousel_items = post.get("resources", [])
+            # New format uses 'carousel_media' or 'resources' for carousel items
+            carousel_items = post.get("carousel_media", []) or post.get("resources", [])
             for item in carousel_items:
                 # Check if it's an image or video within the carousel
                 if item.get("media_type") == 1:  # Image
-                    image_versions = item.get("image_versions", {})
-                    # New format: image_versions has 'items' array
-                    if isinstance(image_versions, dict) and "items" in image_versions:
-                        image_items = image_versions.get("items", [])
-                        if image_items:
-                            # Take the highest quality image (first in list)
-                            media_list.append({
-                                "url": image_items[0].get("url"),
-                                "type": "image"
-                            })
-                    elif isinstance(image_versions, list) and image_versions:
-                        # Old format: direct array
+                    # Use image_versions2.candidates (new schema)
+                    image_versions2 = item.get("image_versions2", {})
+                    candidates = image_versions2.get("candidates", [])
+                    if candidates:
                         media_list.append({
-                            "url": image_versions[0].get("url"),
+                            "url": candidates[0].get("url"),
                             "type": "image"
                         })
+                    else:
+                        # Fallback to old format
+                        image_versions = item.get("image_versions", {})
+                        if isinstance(image_versions, dict) and "items" in image_versions:
+                            image_items = image_versions.get("items", [])
+                            if image_items:
+                                media_list.append({
+                                    "url": image_items[0].get("url"),
+                                    "type": "image"
+                                })
+                        elif isinstance(image_versions, list) and image_versions:
+                            media_list.append({
+                                "url": image_versions[0].get("url"),
+                                "type": "image"
+                            })
                 elif item.get("media_type") == 2:  # Video
                     # Check for direct video_url first
                     video_url = item.get("video_url")
@@ -172,13 +181,29 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
                             "type": "video"
                         })
                     else:
-                        # Fallback to video_versions
+                        # Use video_versions array - select highest quality
                         video_versions = item.get("video_versions", [])
                         if video_versions:
-                            media_list.append({
-                                "url": video_versions[0].get("url"),
-                                "type": "video"
-                            })
+                            best_video = None
+                            max_resolution = 0
+                            for video in video_versions:
+                                width = video.get("width", 0)
+                                height = video.get("height", 0)
+                                resolution = width * height
+                                if resolution > max_resolution:
+                                    max_resolution = resolution
+                                    best_video = video
+                            
+                            if best_video:
+                                media_list.append({
+                                    "url": best_video.get("url"),
+                                    "type": "video"
+                                })
+                            else:
+                                media_list.append({
+                                    "url": video_versions[0].get("url"),
+                                    "type": "video"
+                                })
                     
                     # Add thumbnail for video
                     thumbnail_url = item.get("thumbnail_url")
@@ -187,25 +212,41 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
                             "url": thumbnail_url,
                             "type": "thumbnail"
                         })
+                    else:
+                        # Use image_versions2.candidates for thumbnail
+                        image_versions2 = item.get("image_versions2", {})
+                        candidates = image_versions2.get("candidates", [])
+                        if candidates:
+                            media_list.append({
+                                "url": candidates[0].get("url"),
+                                "type": "thumbnail"
+                            })
 
         elif post_info["type"] == "image":
-            # For single images, use main image_versions
-            image_versions = post.get("image_versions", {})
-            # New format: image_versions has 'items' array
-            if isinstance(image_versions, dict) and "items" in image_versions:
-                image_items = image_versions.get("items", [])
-                if image_items:
-                    # Take the highest quality image (first in list)
-                    media_list.append({
-                        "url": image_items[0].get("url"),
-                        "type": "image"
-                    })
-            elif isinstance(image_versions, list) and image_versions:
-                # Old format: direct array
+            # For single images, use image_versions2.candidates (new schema)
+            image_versions2 = post.get("image_versions2", {})
+            candidates = image_versions2.get("candidates", [])
+            if candidates:
+                # Take the highest quality image (first candidate)
                 media_list.append({
-                    "url": image_versions[0].get("url"),
+                    "url": candidates[0].get("url"),
                     "type": "image"
                 })
+            else:
+                # Fallback to old format for robustness
+                image_versions = post.get("image_versions", {})
+                if isinstance(image_versions, dict) and "items" in image_versions:
+                    image_items = image_versions.get("items", [])
+                    if image_items:
+                        media_list.append({
+                            "url": image_items[0].get("url"),
+                            "type": "image"
+                        })
+                elif isinstance(image_versions, list) and image_versions:
+                    media_list.append({
+                        "url": image_versions[0].get("url"),
+                        "type": "image"
+                    })
 
         elif post_info["type"] == "video":
             # Check for direct video_url first
@@ -216,15 +257,33 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
                     "type": "video"
                 })
             else:
-                # Fallback to video_versions
+                # Use video_versions array - select highest quality (first item is typically highest)
                 video_versions = post.get("video_versions", [])
                 if video_versions:
-                    media_list.append({
-                        "url": video_versions[0].get("url"),
-                        "type": "video"
-                    })
+                    # Select best quality video (highest resolution)
+                    best_video = None
+                    max_resolution = 0
+                    for video in video_versions:
+                        width = video.get("width", 0)
+                        height = video.get("height", 0)
+                        resolution = width * height
+                        if resolution > max_resolution:
+                            max_resolution = resolution
+                            best_video = video
+                    
+                    if best_video:
+                        media_list.append({
+                            "url": best_video.get("url"),
+                            "type": "video"
+                        })
+                    else:
+                        # Fallback to first video if no resolution info
+                        media_list.append({
+                            "url": video_versions[0].get("url"),
+                            "type": "video"
+                        })
             
-            # Add thumbnail for video
+            # Add thumbnail for video - use image_versions2.candidates (new schema)
             thumbnail_url = post.get("thumbnail_url")
             if thumbnail_url:
                 media_list.append({
@@ -232,20 +291,38 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
                     "type": "thumbnail"
                 })
             else:
-                # Fallback to image_versions for thumbnail
-                image_versions = post.get("image_versions", {})
-                if isinstance(image_versions, dict) and "items" in image_versions:
-                    image_items = image_versions.get("items", [])
-                    if image_items:
-                        media_list.append({
-                            "url": image_items[0].get("url"),
-                            "type": "thumbnail"
-                        })
-                elif isinstance(image_versions, list) and image_versions:
+                # Use image_versions2.candidates for thumbnail (first frame)
+                image_versions2 = post.get("image_versions2", {})
+                candidates = image_versions2.get("candidates", [])
+                if candidates:
                     media_list.append({
-                        "url": image_versions[0].get("url"),
+                        "url": candidates[0].get("url"),
                         "type": "thumbnail"
                     })
+                else:
+                    # Fallback to additional_candidates.first_frame if available
+                    additional_candidates = image_versions2.get("additional_candidates", {})
+                    first_frame = additional_candidates.get("first_frame", {})
+                    if first_frame.get("url"):
+                        media_list.append({
+                            "url": first_frame.get("url"),
+                            "type": "thumbnail"
+                        })
+                    else:
+                        # Fallback to old format for robustness
+                        image_versions = post.get("image_versions", {})
+                        if isinstance(image_versions, dict) and "items" in image_versions:
+                            image_items = image_versions.get("items", [])
+                            if image_items:
+                                media_list.append({
+                                    "url": image_items[0].get("url"),
+                                    "type": "thumbnail"
+                                })
+                        elif isinstance(image_versions, list) and image_versions:
+                            media_list.append({
+                                "url": image_versions[0].get("url"),
+                                "type": "thumbnail"
+                            })
 
         # Filter out any potential None values if URLs weren't found
         post_info["media_list"] = [media for media in media_list if media.get("url")]
@@ -273,36 +350,41 @@ def extract_instagram_post_data(posts_data: List[dict]) -> List[dict]:
 
 def get_latest_instagram_post(page_id:str, last_created_at: int = None, n_posts: int = 10) -> List[dict]:
     """
-    Get latest Instagram posts for a given page.
+    Get latest Instagram posts for a given user using the new Instagram API.
     
     Args:
-        page_id: Instagram username or ID
+        page_id: Instagram numeric user ID (e.g., "26186274775"). Must be numeric ID, not username.
         last_created_at: Unix timestamp - only return posts after this time. If None, get latest n_posts
         n_posts: Maximum number of posts to return (default 10)
     
     Returns:
         List of extracted post dictionaries
+    
+    Note:
+        Uses the social-media-data-api1.p.rapidapi.com API endpoint with the new schema.
+        Pagination is handled via profile_grid_items_cursor and next_max_id.
     """
-    pagination_token = None
+    profile_grid_items_cursor = None
     post_array = []
     should_continue = True
 
-    url = "https://instagram-scraper-20251.p.rapidapi.com/userposts/"
-    headers = {"x-rapidapi-key": api_key, "x-rapidapi-host": "instagram-scraper-20251.p.rapidapi.com"}
+    url = "https://social-media-data-api1.p.rapidapi.com/gql/user/medias"
+    headers = {"x-rapidapi-key": api_key, "x-rapidapi-host": "social-media-data-api1.p.rapidapi.com"}
 
     while should_continue:
-        query_string = {"username_or_id": page_id}
-        if pagination_token:
-            query_string["pagination_token"] = pagination_token
+        query_string = {"user_id": page_id, "flat": "true"}
+        if profile_grid_items_cursor:
+            query_string["profile_grid_items_cursor"] = profile_grid_items_cursor
 
         data = call_rapid_api(url=url, params=query_string, headers=headers)
         if not data:
             return []
 
-        # New response structure: {"data": {"items": [...], "count": ..., "user": {...}}, "pagination_token": "..."}
-        response_data = data.get("data", {})
-        posts = response_data.get("items", [])
-        pagination_token = data.get("pagination_token")
+        # New response structure: top-level items array, pagination via profile_grid_items_cursor and next_max_id
+        posts = data.get("items", [])
+        profile_grid_items_cursor = data.get("profile_grid_items_cursor")
+        next_max_id = data.get("next_max_id")
+        more_available = data.get("more_available", False)
 
         if posts:
             posts_info = extract_instagram_post_data(posts)
@@ -323,12 +405,15 @@ def get_latest_instagram_post(page_id:str, last_created_at: int = None, n_posts:
 
         # Stop conditions:
         # 1. If we have enough posts (n_posts limit reached)
-        # 2. If no more pagination token available
+        # 2. If no more pagination available (no cursor and more_available is False)
         # 3. If we're filtering by timestamp and found old posts
         if len(post_array) >= n_posts:
             should_continue = False
-        elif not pagination_token:
+        elif not more_available and not profile_grid_items_cursor and not next_max_id:
             should_continue = False
+        # Use next_max_id as fallback if profile_grid_items_cursor is not available
+        elif not profile_grid_items_cursor and next_max_id:
+            profile_grid_items_cursor = next_max_id
 
     # Limit to requested number of posts
     return post_array[:n_posts]
